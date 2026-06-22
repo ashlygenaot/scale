@@ -1,7 +1,6 @@
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
-
 export const registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -15,6 +14,10 @@ export const registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
 
+    if (!username || !email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
     const user = await User.create({
       username,
       email,
@@ -23,8 +26,7 @@ export const registerUser = async (req, res) => {
 
     // create token AFTER user exists
     const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET,
+      { id: user._id }, process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
 
