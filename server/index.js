@@ -4,6 +4,9 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import sessionRoutes from "./routes/sessionRoutes.js";
+import analyticsRoutes from "./routes/analyticsRoutes.js";
+import climbRoutes from "./routes/climbRoutes.js";
 
 dotenv.config();
 
@@ -16,7 +19,9 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
-
+app.use("/api/sessions", sessionRoutes);
+app.use("/api/analytics", analyticsRoutes);
+app.use("/api/sessions", climbRoutes);
 app.get("/", (req, res) => {
   res.json({ message: "Scale API running" });
 });
