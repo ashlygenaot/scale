@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export function Nav() {
+export default function Nav() {
   return (
     <header className="border-b border-border bg-background/95 backdrop-blur sticky top-0 z-50">
       <div className="mx-auto max-w-6xl px-6 h-14 flex items-center justify-between">
@@ -9,7 +9,7 @@ export function Nav() {
             Scale
           </span>
           <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-            v2.4
+            v2
           </span>
         </Link>
 
@@ -18,25 +18,14 @@ export function Nav() {
             Dashboard
           </Link>
 
-          <a href="/#logbook" className="hover:text-foreground">
+          <Link to="/logbook" className="hover:text-foreground">
             Logbook
-          </a>
+          </Link>
 
           <a href="/#progress" className="hover:text-foreground">
             Progress
           </a>
 
-          <a href="#training" className="hover:text-foreground">
-            Training
-          </a>
-
-          <a href="#crags" className="hover:text-foreground">
-            Crags
-          </a>
-
-          <a href="#pricing" className="hover:text-foreground">
-            Pricing
-          </a>
         </nav>
 
         <div className="flex items-center gap-4 text-[13px]">
