@@ -13,84 +13,97 @@ export default function Login() {
     setError("");
 
     try {
-      const res = await loginUser({
-        email,
-        password,
-      });
-
-      // 🔥 normalize response (handles axios OR fetch)
+      const res = await loginUser({ email, password });
       const data = res?.data || res;
 
-      if (!data?.token) {
-        throw new Error("No token returned from server");
-      }
+      if (!data?.token) throw new Error("No token returned");
 
-      // store auth
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
       navigate("/dashboard");
     } catch (err) {
-      console.log(err);
       setError(err.response?.data?.message || err.message || "Login failed");
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-green-50 via-emerald-100 to-teal-200">
-      <div className="w-[440px] bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-green-100">
-        <div className="flex justify-center mb-6">
-          <h2 className="text-3xl font-bold text-center text-emerald-800">
-            Login
-          </h2>
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="w-full max-w-md px-6">
+
+        {/* HEADER */}
+        <div className="mb-8 text-center">
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+            Scale Logbook
+          </p>
+          <h1 className="font-display text-4xl mt-2 tracking-[-0.02em]">
+            Log in
+          </h1>
+          <p className="mt-2 font-mono text-[11px] text-muted-foreground">
+            Access your training log
+          </p>
         </div>
 
-        <form className="space-y-4" onSubmit={handleLogin}>
-          <input
-            type="email"
-            placeholder="Email"
-            required
-            className="w-full p-3 border-b-2 border-stone-200 outline-none focus:border-emerald-400 placeholder-stone-400 text-stone-700"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+        {/* CARD */}
+        <form
+          onSubmit={handleLogin}
+          className="border border-border bg-card px-6 py-8 space-y-5"
+        >
 
-          <input
-            type="password"
-            placeholder="Password"
-            required
-            className="w-full p-3 border-b-2 border-stone-200 outline-none focus:border-emerald-400 placeholder-stone-400 text-stone-700"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-
-          <div className="text-right">
-            <p className="text-emerald-600 hover:underline cursor-pointer text-sm">
-              Forgot Password?
-            </p>
+          {/* EMAIL */}
+          <div>
+            <label className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+              Email
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="mt-2 w-full bg-transparent border-b-2 border-foreground/20 focus:border-primary outline-none py-2 text-foreground"
+              placeholder="you@example.com"
+            />
           </div>
 
-          {error && <p className="text-red-400 text-sm">{error}</p>}
+          {/* PASSWORD */}
+          <div>
+            <label className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+              Password
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="mt-2 w-full bg-transparent border-b-2 border-foreground/20 focus:border-primary outline-none py-2 text-foreground"
+              placeholder="••••••••"
+            />
+          </div>
 
+          {/* ERROR */}
+          {error && (
+            <p className="font-mono text-[11px] text-red-500">
+              {error}
+            </p>
+          )}
+
+          {/* BUTTON */}
           <button
             type="submit"
-            className="w-full p-3 bg-emerald-400 text-white rounded-full text-lg font-medium hover:opacity-90 transition shadow-md"
+            className="w-full mt-2 border-2 border-foreground text-foreground py-2 font-mono text-[11px] uppercase tracking-widest hover:bg-foreground hover:text-background transition"
           >
-            Login
+            Log in
           </button>
 
-          <p className="text-center text-stone-500 text-sm">
-            Don't have an account?{" "}
-            <a
-              href="#"
-              className="text-emerald-600 font-medium hover:underline"
-              onClick={(e) => {
-                e.preventDefault();
-                navigate("/signup");
-              }}
+          {/* FOOTER */}
+          <p className="text-center font-mono text-[11px] text-muted-foreground pt-2">
+            No account?{" "}
+            <span
+              onClick={() => navigate("/register")}
+              className="text-primary cursor-pointer hover:underline"
             >
-              Sign Up
-            </a>
+              Create one
+            </span>
           </p>
         </form>
       </div>

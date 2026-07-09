@@ -14,39 +14,68 @@ const climbSchema = new mongoose.Schema(
       required: true,
     },
 
-    routeName: {
+    Routename: {
       type: String,
       required: true,
       trim: true,
     },
 
     grade: {
-      type: Number,
-      required: true,
-    },
-
-    gradeSystem: {
       type: String,
-      enum: ["V", "YDS"],
-      default: "V",
+      required: true,
+      trim: true,
     },
 
-    attempts: {
+    type: {
+      type: String,
+      enum: ["boulder", "sport", "trad", "gym"],
+      default: "boulder",
+    },
+
+    location: {
+      type: String,
+      trim: true,
+    },
+
+    date: {
+      type: Date,
+      default: Date.now,
+    },
+
+    status: {
+      type: String,
+      enum: ["send", "flash", "attempt", "project"],
+      default: "attempt",
+    },
+
+    tries: {
       type: Number,
       default: 1,
-      min: 1
+      min: 0,
     },
 
-    result: {
+    notes: {
       type: String,
-      enum: ["sent", "flash", "project"],
-      required: true,
+      trim: true,
     },
 
-    tags: [String],
+    isProject: {
+      type: Boolean,
+      default: false,
+    },
+
+    tags: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
+const Climb = mongoose.model("Climb", climbSchema);
 
-export default mongoose.model("Climb", climbSchema);
+export default Climb;

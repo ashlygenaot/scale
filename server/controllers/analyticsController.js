@@ -1,78 +1,80 @@
 import Climb from "../models/Climb.js";
 import Session from "../models/Session.js";
 
-export const getSummary = async (req, res) => {
-  try {
-    const userId = req.user.id;
 
-    const [totalSessions, climbs] = await Promise.all([
-      Session.countDocuments({ user: userId }),
-      Climb.find({ user: userId }),
-    ]);
+export const getAnalytics = async (req,res)=>{
 
-    if (climbs.length === 0) {
-      return res.json({
-        totalSessions,
-        totalClimbs: 0,
-        maxGrade: 0,
-        successRate: 0,
-      });
-    }
+try {
 
-    let maxGrade = 0;
-    let successful = 0;
+const userId = req.user.id;
 
-    for (const c of climbs) {
-      if (c.grade > maxGrade) maxGrade = c.grade;
-      if (c.result === "sent" || c.result === "flash") {
-        successful++;
-      }
-    }
 
-    const successRate = successful / climbs.length;
+// sessions
+const sessions = await Session.countDocuments({
+    user:userId
+});
 
-    res.json({
-      totalSessions,
-      totalClimbs: climbs.length,
-      maxGrade,
-      successRate: Number(successRate.toFixed(2)),
-    });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
 
-export const getProgression = async (req, res) => {
-  try {
-    const userId = req.user.id;
+// climbs
+const climbs = await Climb.find({
+    user:userId
+});
 
-    const climbs = await Climb.find({ user: userId }).sort({
-      createdAt: 1,
-    });
 
-    if (climbs.length === 0) {
-      return res.json([]);
-    }
 
-    const map = {};
+const totalClimbs = climbs.length;
 
-    for (const climb of climbs) {
-      const date = climb.createdAt.toISOString().split("T")[0];
 
-      if (!map[date]) {
-        map[date] = {
-          date,
-          maxGrade: climb.grade,
-          totalClimbs: 1,
-        };
-      } else {
-        map[date].totalClimbs += 1;
-        map[date].maxGrade = Math.max(map[date].maxGrade, climb.grade);
-      }
-    }
+const sends = climbs.filter(
+    c => c.status === "send" || c.status === "flash"
+).length;
 
-    res.json(Object.values(map));
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+
+
+const projects = climbs.filter(
+    c => c.status === "project"
+).length;
+
+
+
+const sendRate =
+totalClimbs === 0
+? 0
+: Math.round((sends / totalClimbs) * 100);
+
+
+
+// highest grade
+const grades = climbs
+.map(c=>c.grade)
+.filter(Boolean);
+
+
+
+res.json({
+
+success:true,
+
+stats:{
+    sessions,
+    totalClimbs,
+    sends,
+    projects,
+    sendRate
+},
+
+grades
+
+});
+
+
+}catch(error){
+
+res.status(500).json({
+message:error.message
+});
+
+}
+
+
 };

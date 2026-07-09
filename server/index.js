@@ -20,8 +20,8 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/sessions", sessionRoutes);
+app.use("/api/climbs", climbRoutes);
 app.use("/api/analytics", analyticsRoutes);
-app.use("/api/sessions", climbRoutes);
 app.get("/", (req, res) => {
   res.json({ message: "Scale API running" });
 });

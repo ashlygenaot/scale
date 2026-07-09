@@ -1,158 +1,193 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Nav from "../components/ui/Nav";
 import Footer from "../components/ui/Footer";
 
-const weekLoad = [
-  { d: "Mon", hrs: 1.2, kind: "Indoor" },
-  { d: "Tue", hrs: 0, kind: "Rest" },
-  { d: "Wed", hrs: 2.4, kind: "Board" },
-  { d: "Thu", hrs: 0, kind: "Rest" },
-  { d: "Fri", hrs: 1.8, kind: "Indoor" },
-  { d: "Sat", hrs: 4.6, kind: "Outside" },
-  { d: "Sun", hrs: 3.1, kind: "Outside" },
-];
+const API = "http://localhost:3000/api";
 
-const maxLoad = Math.max(...weekLoad.map((w) => w.hrs));
+export default function Logbook() {
+  const [sessions, setSessions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-const projects = [
-  {
-    name: "Lurking Fear",
-    grade: "V8",
-    crag: "Buttermilks",
-    tries: 47,
-    last: "2d ago",
-    status: "Close",
-  },
-  {
-    name: "Acid Wash sit",
-    grade: "V10",
-    crag: "Happy Boulders",
-    tries: 22,
-    last: "6d ago",
-    status: "Working",
-  },
-  {
-    name: "Red 8 — gym proj",
-    grade: "~V8",
-    crag: "The Spot",
-    tries: 14,
-    last: "today",
-    status: "Linking",
-  },
-  {
-    name: "Direction",
-    grade: "V9",
-    crag: "Way Lake",
-    tries: 8,
-    last: "12d ago",
-    status: "Cold",
-  },
-];
-
-const recent = [
-  { d: "Apr 28", route: "The Mandala", g: "V12", r: "Send" },
-  { d: "Apr 26", route: "High Plains Drifter", g: "V7", r: "Flash" },
-  { d: "Apr 22", route: "Acid Wash", g: "V9", r: "Send" },
-  { d: "Apr 18", route: "Red 8 (proj)", g: "~V8", r: "Worked" },
-  { d: "Apr 15", route: "Set 4 / Yellow", g: "V5", r: "Send" },
-];
-
-const fingerData = [
-  { wk: "W1", v: 38 },
-  { wk: "W2", v: 41 },
-  { wk: "W3", v: 40 },
-  { wk: "W4", v: 44 },
-  { wk: "W5", v: 46 },
-  { wk: "W6", v: 45 },
-  { wk: "W7", v: 49 },
-  { wk: "W8", v: 52 },
-];
-
-const fingerMax = 60;
-
-export default function Dashboard() {
   useEffect(() => {
-    document.title = "Dashboard — Scale";
+    document.title = "Logbook — Scale";
+
+    async function fetchSessions() {
+      try {
+        const token = localStorage.getItem("token");
+
+        const res = await fetch(`${API}/sessions`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || "Failed to fetch sessions");
+        }
+
+        setSessions(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error(err);
+        setError(err.message || "Failed to load logbook");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchSessions();
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background text-foreground">
       <Nav />
 
       <main>
         {/* HEADER */}
         <section className="border-b border-border">
           <div className="mx-auto max-w-6xl px-6 pt-12 pb-10">
-            <div className="flex items-end justify-between flex-wrap gap-6">
-              <div>
-                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-3">
-                  Logbook · M. Reyes
-                </p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-3">
+              Logbook · Training Archive
+            </p>
 
-                <h1 className="font-display text-4xl md:text-5xl tracking-[-0.02em]">
-                  Week of <em className="text-primary">Apr 26 — May 2</em>
-                </h1>
-              </div>
+            <h1 className="font-display text-4xl md:text-5xl tracking-[-0.02em]">
+              Your climbing history
+            </h1>
 
-              <div className="flex items-center gap-3 text-[13px]">
-                <button className="font-mono text-[11px] uppercase tracking-wider px-3 py-2 border border-border hover:border-foreground/60">
-                  Export CSV
-                </button>
+            <div className="mt-6 flex gap-3">
+              <Link
+                to="/session/new"
+                className="bg-foreground text-background px-4 py-2 text-sm font-mono uppercase tracking-wider"
+              >
+                + New Session
+              </Link>
 
-                <Link
-                  to="/sessions/new"
-                  className="bg-foreground text-background px-3.5 py-2 text-sm rounded-sm hover:bg-foreground/85"
-                >
-                  + New Entry
-                </Link>
-              </div>
-            </div>
-
-            <div className="mt-10 grid grid-cols-2 md:grid-cols-4 border-y-2 border-foreground/80 divide-x divide-border">
-              <Kpi label="Sessions / 7d" value="5" sub="+1 vs prior" />
-              <Kpi
-                label="Wall time"
-                value="13.1"
-                unit="hr"
-                sub="moderate load"
-              />
-              <Kpi label="Sends / 7d" value="9" sub="2 outdoor" />
-              <Kpi
-                label="Hardest"
-                value="V12"
-                sub="Apr 28 · 3rd go"
-                accent
-              />
+              <Link
+                to="/dashboard"
+                className="border border-border px-4 py-2 text-sm font-mono uppercase tracking-wider"
+              >
+                Dashboard
+              </Link>
             </div>
           </div>
         </section>
 
-        {/* keep the rest of your JSX exactly as-is */}
+
+        {/* CONTENT */}
+        <section className="mx-auto max-w-6xl px-6 py-12">
+
+          {error && (
+            <p className="font-mono text-sm text-red-500 mb-8">
+              {error}
+            </p>
+          )}
+
+          {loading && (
+            <p className="font-mono text-sm text-muted-foreground">
+              Loading sessions...
+            </p>
+          )}
+
+
+          {/* SESSION LIST */}
+          {!loading && (
+            <div>
+              <h2 className="font-display text-2xl mb-6">
+                Sessions
+              </h2>
+
+              <div className="border-y border-border">
+
+                {sessions.length === 0 ? (
+                  <div className="py-12 text-center text-muted-foreground">
+                    No sessions yet.
+                  </div>
+                ) : (
+
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="text-left border-b border-border">
+                        <th className="py-3 font-mono text-xs">
+                          Date
+                        </th>
+
+                        <th className="py-3 font-mono text-xs">
+                          Location
+                        </th>
+
+                        <th className="py-3 font-mono text-xs">
+                          Duration
+                        </th>
+
+                        <th className="py-3 font-mono text-xs">
+                          Notes
+                        </th>
+
+                        <th className="py-3 font-mono text-xs">
+                        </th>
+                      </tr>
+                    </thead>
+
+
+                    <tbody>
+                      {sessions.map((session) => (
+                        <tr
+                          key={session._id}
+                          className="border-b border-border"
+                        >
+
+                          <td className="py-4">
+                            {new Date(
+                              session.date
+                            ).toLocaleDateString()}
+                          </td>
+
+
+                          <td>
+                            {session.location || "-"}
+                          </td>
+
+
+                          <td className="font-mono">
+                            {session.duration
+                              ? `${session.duration} min`
+                              : "-"
+                            }
+                          </td>
+
+
+                          <td className="max-w-xs truncate">
+                            {session.notes || "-"}
+                          </td>
+
+
+                          <td>
+                            <Link
+                              to={`/session/${session._id}`}
+                              className="font-mono text-xs uppercase text-primary hover:underline"
+                            >
+                              View →
+                            </Link>
+                          </td>
+
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+
+                )}
+
+              </div>
+            </div>
+          )}
+
+        </section>
       </main>
 
       <Footer />
-    </div>
-  );
-}
-
-function Kpi({ label, value, unit, sub, accent }) {
-  return (
-    <div className="px-5 py-6">
-      <p className="font-mono text-[10px] uppercase text-muted-foreground">
-        {label}
-      </p>
-
-      <p className={`text-4xl mt-2 ${accent ? "text-primary" : ""}`}>
-        {value}
-        {unit && <span className="text-sm ml-1">{unit}</span>}
-      </p>
-
-      {sub && (
-        <p className="font-mono text-[11px] text-muted-foreground mt-2">
-          {sub}
-        </p>
-      )}
     </div>
   );
 }

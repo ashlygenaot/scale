@@ -13,13 +13,17 @@ export default function Nav() {
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-7 text-[13px] text-foreground/80">
+        <nav className="hidden md:flex items-center gap-35 text-[13px] text-foreground/80">
           <Link to="/dashboard" className="hover:text-foreground">
             Dashboard
           </Link>
 
           <Link to="/logbook" className="hover:text-foreground">
             Logbook
+          </Link>
+
+          <Link to="/projects" className="hover:text-foreground">
+            Projects
           </Link>
 
           <a href="/#progress" className="hover:text-foreground">
@@ -37,7 +41,7 @@ export default function Nav() {
           </Link>
 
           <Link
-            to="/signup"
+            to="/register"
             className="bg-foreground text-background px-3.5 py-1.5 rounded-sm hover:bg-foreground/85 transition-colors"
           >
             Start a logbook

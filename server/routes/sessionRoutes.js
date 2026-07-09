@@ -1,13 +1,22 @@
 import express from "express";
+import { protect } from "../middleware/authMiddleware.js";
+
 import {
   createSession,
   getSessions,
+  getSession,
+  deleteSession,
 } from "../controllers/sessionController.js";
-import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/", protect, createSession);
-router.get("/", protect, getSessions);
+
+router.route("/")
+  .post(protect, createSession)
+  .get(protect, getSessions);
+
+router.route("/:id")
+  .get(protect, getSession)
+  .delete(protect, deleteSession);
 
 export default router;

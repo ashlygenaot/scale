@@ -1,133 +1,151 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { registerUser } from "../api/auth"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { registerUser } from "../api/auth";
 
-const inputClass =
-  'w-full p-3 border-b-2 border-stone-200 outline-none focus:border-emerald-400 placeholder-stone-400 text-stone-700'
+export default function Register() {
+  const navigate = useNavigate();
 
-export default function Signup() {
-  const navigate = useNavigate()
-  const [error, setError] = useState('')
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  })
-
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    })
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError('')
-
-    if (form.password !== form.confirmPassword) {
-      return setError('Passwords do not match.')
-    }
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setError("");
 
     try {
-      const res = await registerUser({
-        username: form.name,
-        email: form.email,
-        password: form.password,
-      })
+      const res = await registerUser({ email, password });
+      const data = res?.data || res;
 
-      // store JWT + user
-      localStorage.setItem('token', res.data.token)
-      localStorage.setItem('user', JSON.stringify(res.data.user))
+      if (!data?.token) throw new Error("No token returned");
 
-      // go to dashboard
-      navigate('/dashboard')
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
 
+      navigate("/dashboard");
     } catch (err) {
-      console.log(err.response?.data)
-      setError(err.response?.data?.message || 'Something went wrong')
+      console.log(err);
+      setError(err.response?.data?.message || err.message || "Signup failed");
     }
-  }
+  };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-green-50 via-emerald-100 to-teal-200 py-8">
-      <div className="w-[440px] bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-green-100">
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="w-full max-w-md px-6">
 
-        <div className="flex justify-center mb-6">
-          <h2 className="text-3xl font-bold text-center text-emerald-800">
-            Sign Up
-          </h2>
+        {/* HEADER */}
+        <div className="mb-8 text-center">
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+            Scale Logbook
+          </p>
+
+          <h1 className="font-display text-4xl mt-2 tracking-[-0.02em]">
+            Create account
+          </h1>
+
+          <p className="mt-2 font-mono text-[11px] text-muted-foreground">
+            Start logging your climbs
+          </p>
         </div>
 
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        {/* CARD */}
+        <form
+          onSubmit={handleRegister}
+          className="border border-border bg-card px-6 py-8 space-y-5"
+        >
+ {/* NAME */}
+<div>
+  <label className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+    Name
+  </label>
 
-          <input
-            name="name"
-            type="text"
-            placeholder="Name"
-            required
-            className={inputClass}
-            value={form.name}
-            onChange={handleChange}
-          />
+  <input
+    type="text"
+    value={name}
+    onChange={(e) => setName(e.target.value)}
+    required
+    className="mt-2 w-full bg-transparent border-b-2 border-foreground/20 focus:border-primary outline-none py-2 text-foreground"
+    placeholder="John Doe"
+  />
+</div>
 
-          <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            required
-            className={inputClass}
-            value={form.email}
-            onChange={handleChange}
-          />
+{/* USERNAME */}
+<div>
+  <label className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+    Username
+  </label>
 
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            required
-            className={inputClass}
-            value={form.password}
-            onChange={handleChange}
-          />
+  <input
+    type="text"
+    value={username}
+    onChange={(e) => setUsername(e.target.value)}
+    required
+    className="mt-2 w-full bg-transparent border-b-2 border-foreground/20 focus:border-primary outline-none py-2 text-foreground"
+    placeholder="johndoe"
+  />
+</div>
+          {/* EMAIL */}
+          <div>
+            <label className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+              Email
+            </label>
 
-          <input
-            name="confirmPassword"
-            type="password"
-            placeholder="Confirm Password"
-            required
-            className={inputClass}
-            value={form.confirmPassword}
-            onChange={handleChange}
-          />
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="mt-2 w-full bg-transparent border-b-2 border-foreground/20 focus:border-primary outline-none py-2 text-foreground"
+              placeholder="you@example.com"
+            />
+          </div>
 
-          {error && <p className="text-red-400 text-sm">{error}</p>}
+          {/* PASSWORD */}
+          <div>
+            <label className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+              Password
+            </label>
 
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="mt-2 w-full bg-transparent border-b-2 border-foreground/20 focus:border-primary outline-none py-2 text-foreground"
+              placeholder="••••••••"
+            />
+          </div>
+
+          {/* ERROR */}
+          {error && (
+            <p className="font-mono text-[11px] text-red-500">
+              {error}
+            </p>
+          )}
+
+          {/* BUTTON */}
           <button
             type="submit"
-            className="w-full p-3 bg-emerald-400 text-white rounded-full text-lg font-medium hover:bg-emerald-500 transition shadow-md"
+            className="w-full mt-2 border-2 border-foreground text-foreground py-2 font-mono text-[11px] uppercase tracking-widest hover:bg-foreground hover:text-background transition"
           >
-            Create Account
+            Create account
           </button>
 
-          <p className="text-center text-stone-500 text-sm">
-            Already have an account?{' '}
-            <a
-              href="#"
-              className="text-emerald-600 font-medium hover:underline"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate('/')
-              }}
+          {/* FOOTER */}
+          <p className="text-center font-mono text-[11px] text-muted-foreground pt-2">
+            Already have an account?{" "}
+            <span
+              onClick={() => navigate("/login")}
+              className="text-primary cursor-pointer hover:underline"
             >
-              Login
-            </a>
+              Log in
+            </span>
           </p>
 
         </form>
       </div>
     </div>
-  )
+  );
 }
