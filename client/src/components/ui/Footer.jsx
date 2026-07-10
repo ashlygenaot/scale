@@ -1,3 +1,4 @@
+
 export default function Footer() {
   return (
     <footer>
@@ -6,34 +7,35 @@ export default function Footer() {
           <p className="font-display text-2xl">Scale</p>
 
           <p className="mt-3 text-foreground/70 max-w-sm leading-relaxed">
-            A logbook for climbers. Built in Bishop, California by two climbers who got tired of spreadsheets.
+            A personal climbing logbook for tracking sessions, projects, and progress.
+            Built by climbers who wanted a better way to remember every attempt.
           </p>
 
           <p className="mt-6 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
-            Made with cold fingers
+            Built between attempts
           </p>
         </div>
 
         <FooterCol
-          title="Product"
-          items={["Logbook", "Pyramid", "Sessions", "Crags", "Import"]}
+          title="Climb"
+          items={["Logbook", "Sessions", "Projects", "Pyramid"]}
         />
 
         <FooterCol
-          title="Read"
-          items={["Field notes", "Changelog", "Methodology", "Press kit"]}
+          title="About"
+          items={["Story", "Updates"]}
         />
 
         <FooterCol
-          title="Contact"
-          items={["hello@scale.log", "@scale.log", "Bishop, CA"]}
+          title="Elsewhere"
+          items={["GitHub", "Contact"]}
         />
       </div>
 
       <div className="border-t border-border">
         <div className="mx-auto max-w-6xl px-6 py-6 flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono uppercase tracking-widest text-muted-foreground">
-          <span>© 2026 Scale Logbook Co.</span>
-          <span>v2.4.1 — released Apr 30</span>
+          <span>© 2026 Scale</span>
+          <span>Made for the days worth remembering</span>
         </div>
       </div>
     </footer>

@@ -7,6 +7,7 @@ import userRoutes from "./routes/userRoutes.js";
 import sessionRoutes from "./routes/sessionRoutes.js";
 import analyticsRoutes from "./routes/analyticsRoutes.js";
 import climbRoutes from "./routes/climbRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/sessions", sessionRoutes);
 app.use("/api/climbs", climbRoutes);
 app.use("/api/analytics", analyticsRoutes);

@@ -21,7 +21,9 @@ export default function Login() {
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      navigate("/dashboard");
+      window.dispatchEvent(new Event("authChanged"));
+
+      window.location.href = "/dashboard";
     } catch (err) {
       setError(err.response?.data?.message || err.message || "Login failed");
     }

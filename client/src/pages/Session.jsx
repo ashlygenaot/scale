@@ -23,7 +23,7 @@ export default function SessionPage() {
         const token = localStorage.getItem("token");
 
         // fetch session
-        const sessionRes = await fetch(`${API}/climbs/${sessionId}`, {
+        const sessionRes = await fetch(`${API}/sessions/${sessionId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -37,7 +37,7 @@ export default function SessionPage() {
 
         // fetch climbs
         const climbsRes = await fetch(
-          `${API}/sessions/${sessionId}/climbs`,
+          `${API}/climbs/${sessionId}/climbs`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -116,7 +116,7 @@ export default function SessionPage() {
               </Link>
 
               <Link
-                to={`/session/${sessionId}/new-climb`}
+                to={`/sessions/${sessionId}/new-climb`}
                 className="bg-foreground text-background px-4 py-2 text-sm font-mono uppercase tracking-wider"
               >
                 + Add Climb

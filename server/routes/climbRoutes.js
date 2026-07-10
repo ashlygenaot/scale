@@ -8,7 +8,6 @@ import {
   getClimbById,
   updateClimb,
   deleteClimb,
-  getProjects,
 } from "../controllers/climbController.js";
 
 const router = express.Router();

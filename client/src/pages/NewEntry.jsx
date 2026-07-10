@@ -43,6 +43,8 @@ export default function NewEntry() {
 
       const data = await res.json();
 
+      console.log("CREATE SESSION RESPONSE:", data);
+
       if (!res.ok) {
         throw new Error(data.message || "Failed to create session");
       }
@@ -155,12 +157,12 @@ export default function NewEntry() {
               </button>
 
               <button
-                type="button"
-                onClick={() => navigate(`/sessions/${data.session._id}`)}
-                className="border border-border px-6 py-3 text-sm font-mono uppercase tracking-wider"
-              >
-                Cancel
-              </button>
+  type="button"
+  onClick={() => navigate("/sessions")}
+  className="border border-border px-6 py-3 text-sm font-mono uppercase tracking-wider"
+>
+  Cancel
+</button>
             </div>
           </form>
         </section>

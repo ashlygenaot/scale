@@ -14,7 +14,7 @@ const climbSchema = new mongoose.Schema(
       required: true,
     },
 
-    Routename: {
+    name: {
       type: String,
       required: true,
       trim: true,

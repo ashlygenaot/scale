@@ -59,7 +59,7 @@ export default function Logbook() {
 
             <div className="mt-6 flex gap-3">
               <Link
-                to="/session/new"
+                to="/sessions/new"
                 className="bg-foreground text-background px-4 py-2 text-sm font-mono uppercase tracking-wider"
               >
                 + New Session
@@ -93,96 +93,89 @@ export default function Logbook() {
 
 
           {/* SESSION LIST */}
-          {!loading && (
-            <div>
-              <h2 className="font-display text-2xl mb-6">
-                Sessions
-              </h2>
+{!loading && (
+  <section className="border-b border-border pb-16">
+    <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-2">
+      01 — Training archive
+    </p>
 
-              <div className="border-y border-border">
+    <h2 className="font-display text-3xl mb-8">
+      Sessions
+    </h2>
 
-                {sessions.length === 0 ? (
-                  <div className="py-12 text-center text-muted-foreground">
-                    No sessions yet.
-                  </div>
-                ) : (
+    <div className="border-y-2 border-foreground/80">
+      {sessions.length === 0 ? (
+        <div className="py-12 text-center text-muted-foreground font-mono text-sm">
+          No sessions yet.
+        </div>
+      ) : (
+        <table className="w-full text-[13px] tabular-nums">
 
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="text-left border-b border-border">
-                        <th className="py-3 font-mono text-xs">
-                          Date
-                        </th>
-
-                        <th className="py-3 font-mono text-xs">
-                          Location
-                        </th>
-
-                        <th className="py-3 font-mono text-xs">
-                          Duration
-                        </th>
-
-                        <th className="py-3 font-mono text-xs">
-                          Notes
-                        </th>
-
-                        <th className="py-3 font-mono text-xs">
-                        </th>
-                      </tr>
-                    </thead>
+          <thead>
+            <tr className="border-b border-foreground/20 text-left">
+              {["Date", "Location", "Duration", "Notes", ""].map((h) => (
+                <th
+                  key={h}
+                  className="py-3 pr-4 font-mono text-[10px] uppercase tracking-wider text-muted-foreground font-normal"
+                >
+                  {h}
+                </th>
+              ))}
+            </tr>
+          </thead>
 
 
-                    <tbody>
-                      {sessions.map((session) => (
-                        <tr
-                          key={session._id}
-                          className="border-b border-border"
-                        >
+          <tbody>
+            {sessions.map((session) => (
+              <tr
+                key={session._id}
+                className="border-b border-border hover:bg-background/60 transition-colors"
+              >
 
-                          <td className="py-4">
-                            {new Date(
-                              session.date
-                            ).toLocaleDateString()}
-                          </td>
-
-
-                          <td>
-                            {session.location || "-"}
-                          </td>
+                <td className="py-4 pr-4 font-mono text-muted-foreground">
+                  {new Date(session.date).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </td>
 
 
-                          <td className="font-mono">
-                            {session.duration
-                              ? `${session.duration} min`
-                              : "-"
-                            }
-                          </td>
+                <td className="py-4 pr-4 font-medium">
+                  {session.location || "-"}
+                </td>
 
 
-                          <td className="max-w-xs truncate">
-                            {session.notes || "-"}
-                          </td>
+                <td className="py-4 pr-4 font-mono">
+                  {session.duration
+                    ? `${session.duration} min`
+                    : "-"
+                  }
+                </td>
 
 
-                          <td>
-                            <Link
-                              to={`/session/${session._id}`}
-                              className="font-mono text-xs uppercase text-primary hover:underline"
-                            >
-                              View →
-                            </Link>
-                          </td>
+                <td className="py-4 pr-4 max-w-xs truncate text-foreground/80">
+                  {session.notes || "-"}
+                </td>
 
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
 
-                )}
+                <td className="py-4 text-right">
+                  <Link
+                    to={`/sessions/${session._id}`}
+                    className="font-mono text-[11px] uppercase tracking-wider text-primary hover:underline"
+                  >
+                    View →
+                  </Link>
+                </td>
 
-              </div>
-            </div>
-          )}
+              </tr>
+            ))}
+          </tbody>
+
+        </table>
+      )}
+    </div>
+  </section>
+)}
 
         </section>
       </main>

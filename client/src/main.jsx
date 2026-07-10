@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./routes/ProtectedRoute";
 import "./index.css";
 import {
   BrowserRouter,
@@ -16,35 +18,41 @@ import NewEntry from "./pages/NewEntry";
 import NewClimb from "./pages/NewClimb";
 import EditClimb from "./pages/EditClimb";
 import Projects from "./pages/Projects";
+import Analytics from "./pages/Analytics";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
+  <AuthProvider>
     <Routes>
   <Route path="/" element={<Login />} />
   <Route path="/login" element={<Login />} />
   <Route path="/register" element={<Register />} />
 
-  <Route path="/dashboard" element={<Dashboard />} />
-  <Route path="/logbook" element={<Logbook />} />
+  <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+  <Route path="/logbook" element={<ProtectedRoute><Logbook /></ProtectedRoute>} />
 
-  <Route path="/session/new" element={<NewEntry />} />
+  <Route path="/sessions/new" element={<ProtectedRoute><NewEntry /></ProtectedRoute>} />
 
   <Route
-    path="/session/:sessionId"
-    element={<Session />}
+    path="/sessions/:sessionId"
+    element={<ProtectedRoute><Session /></ProtectedRoute>}
   />
 
   <Route
-    path="/session/:sessionId/new-climb"
-    element={<NewClimb />}
+    path="/sessions/:sessionId/new-climb"
+    element={<ProtectedRoute><NewClimb /></ProtectedRoute>}
   />
 
   <Route
-    path="/session/:sessionId/climb/:climbId/edit"
-    element={<EditClimb />}
+    path="/sessions/:sessionId/climb/:climbId/edit"
+    element={<ProtectedRoute><EditClimb /></ProtectedRoute>}
   />
 
-  <Route path="/projects" element={<Projects />} />
+  <Route path="/projects" element={<ProtectedRoute><Projects/></ProtectedRoute>} />
+
+  <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>}/>
+
 </Routes>
+</AuthProvider>
   </BrowserRouter>
 );

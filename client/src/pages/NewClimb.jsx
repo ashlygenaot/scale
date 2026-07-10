@@ -51,7 +51,7 @@ const [error, setError] = useState("");
         throw new Error(data.message || "Failed to create climb");
       }
 
-      navigate(`/session/${sessionId}`);
+      navigate(`/sessions/${sessionId}`);
     } catch (err) {
       setError(err.message);
     }
@@ -189,7 +189,7 @@ const [error, setError] = useState("");
 
               <button
                 type="button"
-                onClick={() => navigate(`/session/${sessionId}`)}
+                onClick={() => navigate(`/sessions/${sessionId}`)}
                 className="border border-border px-5 py-2 font-mono text-xs uppercase tracking-wider"
               >
                 Cancel
