@@ -8,7 +8,7 @@ export default function Footer() {
 
           <p className="mt-3 text-foreground/70 max-w-sm leading-relaxed">
             A personal climbing logbook for tracking sessions, projects, and progress.
-            Built by climbers who wanted a better way to remember every attempt.
+            Built by a climber who wanted a better way to remember every attempt.
           </p>
 
           <p className="mt-6 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">

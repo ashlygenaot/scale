@@ -70,7 +70,7 @@ function toggleTheme() {
 
 <button
     onClick={toggleTheme}
-    className="font-mono text-lg uppercase tracking-wider text-muted-foreground hover:text-foreground"
+    className="font-mono text-2xl uppercase tracking-wider text-muted-foreground hover:text-foreground"
   >
     ◐
   </button>
