@@ -11,7 +11,7 @@ export default function Logbook() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    document.title = "Logbook — Scale";
+    document.title = "Logbook";
 
     async function fetchSessions() {
       try {
@@ -40,6 +40,38 @@ export default function Logbook() {
 
     fetchSessions();
   }, []);
+
+  async function deleteSession(sessionId) {
+  if (!window.confirm("Delete this session?")) return;
+
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(
+      `${API}/sessions/${sessionId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message);
+    }
+
+    // remove from UI
+    setSessions((prev) =>
+      prev.filter((s) => s._id !== sessionId)
+    );
+
+  } catch (err) {
+    setError(err.message);
+  }
+}
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -161,10 +193,17 @@ export default function Logbook() {
                 <td className="py-4 text-right">
                   <Link
                     to={`/sessions/${session._id}`}
-                    className="font-mono text-[11px] uppercase tracking-wider text-primary hover:underline"
+                    className="font-mono text-[11px] uppercase tracking-wider text-primary hover:underline mr-4"
                   >
-                    View →
+                    View
                   </Link>
+
+                  <button
+                    onClick={() => deleteSession(session._id)}
+                    className="font-mono text-xs uppercase text-red-500 hover:underline"
+                  >
+                    Delete
+                  </button>
                 </td>
 
               </tr>

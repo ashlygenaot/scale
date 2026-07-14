@@ -234,7 +234,7 @@ export default function Dashboard() {
       <table className="w-full text-[13px] tabular-nums">
         <thead>
           <tr className="border-b border-foreground/20 text-left">
-            {["Project", "Grade", "Crag", "Tries", "Last", "Status"].map((h) => (
+            {["Project", "Grade", "Crag", "Tries", "Status"].map((h) => (
               <th
                 key={h}
                 className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground font-normal py-3 pr-4"
@@ -253,11 +253,8 @@ export default function Dashboard() {
             >
               <td className="py-3 pr-4 font-medium">{project.name}</td>
               <td className="py-3 pr-4 font-mono">{project.grade}</td>
-              <td className="py-3 pr-4 text-foreground/80">{project.location}</td>
+              <td className="py-3 pr-4 text-foreground/80">{project.location || "-"}</td>
               <td className="py-3 pr-4 font-mono">{project.tries}</td>
-              <td className="py-3 pr-4 font-mono text-muted-foreground">
-                {project.last}
-              </td>
               <td className="py-3 pr-4">
                 <span className="font-mono text-[11px] uppercase tracking-wider text-primary">
                   {project.status}
@@ -299,6 +296,9 @@ export default function Dashboard() {
     <th className="py-3 pr-4 font-mono text-xs uppercase tracking-wider text-muted-foreground">
       Grade
     </th>
+    <th className="py-3 pr-4 font-mono text-xs uppercase tracking-wider text-muted-foreground">
+      Location
+    </th>
     <th className="py-3 text-right font-mono text-xs uppercase tracking-wider text-muted-foreground">
       Result
     </th>
@@ -325,6 +325,9 @@ export default function Dashboard() {
       {r.grade}
     </td>
 
+    <td className="py-3 pr-4 font-mono">
+      {r.location}
+    </td>
     <td className="py-3 text-right font-mono text-primary">
       {r.status}
     </td>

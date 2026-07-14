@@ -12,6 +12,7 @@ export default function NewClimbPage() {
 const [name, setName] = useState("");
 const [grade, setGrade] = useState("");
 const [type, setType] = useState("boulder");
+const [location, setLocation] = useState("");
 const [tries, setTries] = useState(1);
 const [status, setStatus] = useState("project");
 const [tags, setTags] = useState("");
@@ -37,6 +38,7 @@ const [error, setError] = useState("");
       type,
       tries,
       status,
+      location,
       tags: tags
         .split(",")
         .map((t) => t.trim())
@@ -100,6 +102,34 @@ const [error, setError] = useState("");
                 placeholder="The Mandala"
               />
             </div>
+
+            <label className="font-mono text-xs uppercase">
+              Location / Crag
+            </label>
+
+            <input
+              type="text"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              placeholder="e.g. Red River Gorge"
+              className="mt-2 w-full border-b border-border bg-transparent py-2 outline-none"
+            />
+
+
+            <label className="font-mono text-xs uppercase">
+              Type
+              </label>
+
+             <select
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+                className="mt-2 w-full border-b border-border bg-transparent py-2 outline-none"
+              >
+              <option value="boulder">Boulder</option>
+              <option value="sport">Sport</option>
+              <option value="trad">Trad</option>
+              <option value="gym">Gym</option>
+              </select>
 
             {/* Grade */}
             <div className="grid md:grid-cols-2 gap-6">

@@ -39,8 +39,6 @@ export const getDashboard = async (req, res) => {
     const climbsThisWeek = climbs.filter(
       c => new Date(c.createdAt) >= weekStart
     );
-console.log("Sessions found:", sessions.length);
-console.log("Climbs found:", climbs.length);
 
     const sends = climbsThisWeek.filter(
       c =>
