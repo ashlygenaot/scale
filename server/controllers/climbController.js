@@ -97,19 +97,31 @@ export const getClimbs = async (req, res) => {
  */
 export const getProjects = async (req, res) => {
   try {
-    const projects = await Climb.find({
+      const projects = await Climb.find({
       user: req.user.id,
       status: "project",
-    })
-      .sort({ createdAt: -1 });
+    }).sort({ updatedAt: -1 });
 
-
-    res.json({
-      success: true,
-      projects,
+    res.json({ projects });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
     });
+  }
+};
 
-  } catch(error){
+/**
+ * GET /climbs/completed
+ */
+export const getCompletedProjects = async (req, res) => {
+  try {
+    const projects = await Climb.find({
+      user: req.user.id,
+      status: { $in: ["send", "flash"] },
+    }).sort({ updatedAt: -1 });
+
+    res.json({ projects });
+  } catch (error) {
     res.status(500).json({
       message: error.message,
     });
@@ -121,20 +133,6 @@ export const getProjects = async (req, res) => {
  */
 export const updateClimb = async (req, res) => {
   try {
-    const climb = await Climb.findById(req.params.id);
-
-    if (!climb) {
-      return res.status(404).json({
-        message: "Climb not found",
-      });
-    }
-
-    if (climb.user.toString() !== req.user.id) {
-      return res.status(403).json({
-        message: "Unauthorized",
-      });
-    }
-
     const updatedClimb = await Climb.findByIdAndUpdate(
       req.params.id,
       {

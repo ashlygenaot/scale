@@ -5,70 +5,85 @@ import Footer from "../components/ui/footer";
 const API = "http://localhost:3000/api";
 
 export default function Projects() {
-  const [projects, setProjects] = useState([]);
-  const [error, setError] = useState("");
-  const currentProjects = projects.filter((p) => p.status === "project" || p.isProject);
-  const completedProjects = projects.filter((p) => p.status === "send" || p.status === "flash");
+const [projects, setProjects] = useState([]);
+const [completedProjects, setCompletedProjects] = useState([]);
+const [error, setError] = useState("");
 
   useEffect(() => {
     async function fetchProjects() {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await fetch(`${API}/climbs/projects`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          throw new Error(data.message);
-        }
-
-        setProjects(data.projects || []);
-      } catch (err) {
-        setError(err.message);
-      }
-    }
-
-    fetchProjects();
-  }, []);
-
-  async function markComplete(projectId) {
-    try {
-      const token = localStorage.getItem("token");
-
-      const res = await fetch(`${API}/climbs/climb/${projectId}`, {
-        method: "PUT",
+        const [projectsRes, completedRes] = await Promise.all([
+      fetch(`${API}/climbs/projects`, {
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          status: "send",
-          isProject: false,
-        }),
-      });
+      }),
 
-      const data = await res.json();
+      fetch(`${API}/climbs/completed`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    ]);
 
-      if (!res.ok) {
-        throw new Error(data.message);
-      }
+    const projectsData = await projectsRes.json();
+    const completedData = await completedRes.json();
 
-        setProjects((prev) =>
-        prev.map((p)=>
-          p._id === projectId
-            ? { ...p, status:"send", isProject: false }
-            : p
-        )
-      );
-    } catch (err) {
-      setError(err.message);
+    if (!projectsRes.ok) {
+      throw new Error(projectsData.message);
     }
+
+    if (!completedRes.ok) {
+      throw new Error(completedData.message);
+    }
+
+    setProjects(projectsData.projects || []);
+    setCompletedProjects(completedData.projects || []);
+  } catch (err) {
+    setError(err.message);
   }
+}
+ fetchProjects();
+}, []);
+
+async function markComplete(projectId) {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(`${API}/climbs/climb/${projectId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        status: "send",
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message);
+    }
+
+    // Remove from active projects
+    setProjects((prev) =>
+      prev.filter((p) => p._id !== projectId)
+    );
+
+    // Add to completed projects
+    setCompletedProjects((prev) => [
+      data,
+      ...prev,
+    ]);
+
+  } catch (err) {
+    setError(err.message);
+  }
+}
 
   async function deleteProject(projectId) {
     if (!window.confirm("Delete this project?")) return;
@@ -89,13 +104,19 @@ export default function Projects() {
       }
 
        setProjects((prev) =>
-      prev.filter((p) => p._id !== projectId)
-    );
+        prev.filter((p) => p._id !== projectId)
+      );
+
+        setCompletedProjects((prev) =>
+          prev.filter((p) => p._id !== projectId)
+      );
 
   } catch (err) {
     setError(err.message);
   }
 }
+
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Nav />
@@ -116,7 +137,7 @@ export default function Projects() {
         )}
 
         <div className="mt-10 border-y-2 border-foreground/80">
-          {currentProjects.length === 0 ? (
+          {projects.length === 0 ? (
             <div className="py-12 text-center text-muted-foreground">
               No projects yet.
             </div>
@@ -151,7 +172,7 @@ export default function Projects() {
               </thead>
 
               <tbody>
-                {currentProjects.map((project) => (
+                {projects.map((project) => (
                   <tr
                     key={project._id}
                     className="border-b border-border hover:bg-background/60 transition-colors"
@@ -204,7 +225,7 @@ export default function Projects() {
     </p>
 
     <h2 className="font-display text-5xl">
-      Finished climbs
+      Completed Projects
     </h2>
   </div>
 

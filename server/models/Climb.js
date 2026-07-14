@@ -58,12 +58,7 @@ const climbSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-
-    isProject: {
-      type: Boolean,
-      default: false,
-    },
-
+    
     tags: [
       {
         type: String,

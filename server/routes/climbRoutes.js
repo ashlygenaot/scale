@@ -4,6 +4,7 @@ import { protect } from "../middleware/authMiddleware.js";
 import {
   createClimb,
   getProjects,
+  getCompletedProjects,
   getClimbs,
   getClimbById,
   updateClimb,
@@ -15,6 +16,7 @@ const router = express.Router();
 
 // Individual climbs
 router.get("/projects", protect, getProjects);
+router.get("/completed", protect, getCompletedProjects);
 
 router.get("/climb/:id", protect, getClimbById);
 router.put("/climb/:id", protect, updateClimb);
