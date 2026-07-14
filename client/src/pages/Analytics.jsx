@@ -11,8 +11,8 @@ import {
   Line,
 } from "recharts";
 
-import Nav from "../components/ui/Nav";
-import Footer from "../components/ui/Footer";
+import Nav from "../components/ui/nav";
+import Footer from "../components/ui/footer";
 
 const API = "http://localhost:3000/api";
 
