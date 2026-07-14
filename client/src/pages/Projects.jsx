@@ -116,6 +116,39 @@ async function markComplete(projectId) {
   }
 }
 
+async function undoProject(projectId) {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(`${API}/climbs/climb/${projectId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        status: "project",
+      }),
+    });
+
+    const updated = await res.json();
+
+    if (!res.ok) {
+      throw new Error(updated.message);
+    }
+
+    // Remove from completed list
+    setCompletedProjects((prev) =>
+      prev.filter((p) => p._id !== projectId)
+    );
+
+    // Add back to active projects
+    setProjects((prev) => [updated, ...prev]);
+
+  } catch (err) {
+    setError(err.message);
+  }
+}
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -253,6 +286,10 @@ async function markComplete(projectId) {
             <th className="py-3 pr-4 font-mono text-[10px] uppercase tracking-wider">
               Result
             </th>
+
+            <th className="wd-40 py-3 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+              Actions
+            </th>
           </tr>
         </thead>
 
@@ -271,9 +308,17 @@ async function markComplete(projectId) {
               <td className="py-4 font-mono">
                 {project.tries}
               </td>
-
               <td className="py-4 font-mono text-primary">
                 ✓ Sent
+              </td>
+
+                <td className="py-3 pl-2">
+              <button
+                onClick={() => undoProject(project._id)}
+                className="font-mono text-[11px] uppercase tracking-wider text-primary hover:underline"
+              >
+              Undo
+              </button>
               </td>
             </tr>
           ))}
