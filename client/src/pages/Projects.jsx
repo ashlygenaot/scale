@@ -5,58 +5,96 @@ import Footer from "../components/ui/footer";
 const API = "http://localhost:3000/api";
 
 export default function Projects() {
-
   const [projects, setProjects] = useState([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
-
     async function fetchProjects() {
-
       try {
-
         const token = localStorage.getItem("token");
 
-        const res = await fetch(
-          `${API}/climbs/projects`,
-          {
-            headers:{
-              Authorization:`Bearer ${token}`
-            }
-          }
-        );
-
+        const res = await fetch(`${API}/climbs/projects`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         const data = await res.json();
 
-
-        if(!res.ok){
+        if (!res.ok) {
           throw new Error(data.message);
         }
 
-
         setProjects(data.projects || []);
-
-
-      } catch(err){
+      } catch (err) {
         setError(err.message);
       }
-
     }
 
-
     fetchProjects();
-
   }, []);
 
+  async function markComplete(projectId) {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await fetch(`${API}/climbs/climb/${projectId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          status: "send",
+          isProject: false,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message);
+      }
+
+      setProjects((prev) =>
+        prev.filter((p) => p._id !== projectId)
+      );
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
+  async function deleteProject(projectId) {
+    if (!window.confirm("Delete this project?")) return;
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await fetch(`${API}/climbs/climb/${projectId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message);
+      }
+
+      setProjects((prev) =>
+        prev.filter((p) => p._id !== projectId)
+      );
+    } catch (err) {
+      setError(err.message);
+    }
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-
       <Nav />
 
       <main className="mx-auto max-w-6xl px-6 py-12">
-
         <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
           Projects
         </p>
@@ -65,63 +103,97 @@ export default function Projects() {
           Current Projects
         </h1>
 
-
         {error && (
-          <p className="text-red-500 mt-5">
+          <p className="mt-5 text-red-500">
             {error}
           </p>
         )}
 
-
-        <div className="mt-10 border-y border-border">
-
+        <div className="mt-10 border-y-2 border-foreground/80">
           {projects.length === 0 ? (
-
-            <p className="py-10 text-center text-muted-foreground">
+            <div className="py-12 text-center text-muted-foreground">
               No projects yet.
-            </p>
-
+            </div>
           ) : (
+            <table className="w-full text-[13px] tabular-nums">
+              <thead>
+                <tr className="border-b border-border text-left">
+                  <th className="py-3 pr-4 font-mono text-[10px] uppercase tracking-wider text-muted-foreground font-normal">
+                    Project
+                  </th>
 
-            projects.map((project)=>(
-              <div
-                key={project._id}
-                className="py-5 border-b border-border"
-              >
+                  <th className="py-3 pr-4 font-mono text-[10px] uppercase tracking-wider text-muted-foreground font-normal">
+                    Grade
+                  </th>
 
-                <h2 className="font-display text-2xl">
-                  {project.name}
-                </h2>
+                  <th className="py-3 pr-4 font-mono text-[10px] uppercase tracking-wider text-muted-foreground font-normal">
+                    Type
+                  </th>
 
+                  <th className="py-3 pr-4 font-mono text-[10px] uppercase tracking-wider text-muted-foreground font-normal">
+                    Tries
+                  </th>
 
-                <div className="flex gap-3 mt-3 font-mono text-sm">
+                  <th className="py-3 pr-4 font-mono text-[10px] uppercase tracking-wider text-muted-foreground font-normal">
+                    Status
+                  </th>
 
-                  <span>
-                    {project.grade}
-                  </span>
+                  <th className="w-40 py-3 pl-5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground font-normal">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
 
-                  <span>
-                    {project.type}
-                  </span>
+              <tbody>
+                {projects.map((project) => (
+                  <tr
+                    key={project._id}
+                    className="border-b border-border hover:bg-background/60 transition-colors"
+                  >
+                    <td className="py-4 pr-4 font-medium">
+                      {project.name}
+                    </td>
 
-                  <span>
-                    {project.tries} attempts
-                  </span>
+                    <td className="py-4 pr-4 font-mono text-primary">
+                      {project.grade}
+                    </td>
 
-                </div>
+                    <td className="py-4 pr-4 text-foreground/70">
+                      {project.type}
+                    </td>
 
-              </div>
-            ))
+                    <td className="py-4 pr-4 font-mono">
+                      {project.tries}
+                    </td>
 
+                    <td className="py-4 pr-4 font-mono uppercase">
+                      {project.status}
+                    </td>
+
+                    <td className="w-40 py-4 pr-4 whitespace-nowrap">
+                      <button
+                        onClick={() => markComplete(project._id)}
+                        className="mr-4 font-mono text-[11px] uppercase tracking-wider text-primary hover:underline"
+                      >
+                        Sent
+                      </button>
+
+                      <button
+                        onClick={() => deleteProject(project._id)}
+                        className="font-mono text-[11px] uppercase tracking-wider text-red-500 hover:underline"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           )}
-
         </div>
-
       </main>
 
-
       <Footer />
-
     </div>
   );
 }
