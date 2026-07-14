@@ -342,7 +342,7 @@ const [session, setSession] = useState(null);
 
     <button
       type="button"
-      onClick={() => navigate(`/session/${sessionId}`)}
+      onClick={() => navigate(`/sessions/${sessionId}`)}
       className="border border-border px-5 py-2"
     >
       Cancel

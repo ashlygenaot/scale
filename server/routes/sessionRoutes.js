@@ -6,6 +6,7 @@ import {
   getSessions,
   getSession,
   deleteSession,
+  updateSession,
 } from "../controllers/sessionController.js";
 
 const router = express.Router();
@@ -17,6 +18,7 @@ router.route("/")
 
 router.route("/:id")
   .get(protect, getSession)
-  .delete(protect, deleteSession);
+  .delete(protect, deleteSession)
+  .put(protect, updateSession);
 
 export default router;

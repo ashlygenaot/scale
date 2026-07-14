@@ -87,7 +87,11 @@ export const getSession = async (req, res) => {
       });
     }
 
-    res.json(session);
+    res.json({
+      success:true,
+      session
+    });
+    
   } catch (error) {
     res.status(500).json({
       message: error.message,
@@ -119,6 +123,48 @@ export const deleteSession = async (req, res) => {
     res.json({
       message: "Session deleted",
     });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+export const updateSession = async (req, res) => {
+  try {
+    const session = await Session.findById(req.params.id);
+
+    if (!session) {
+      return res.status(404).json({
+        message: "Session not found",
+      });
+    }
+
+    // Make sure the session belongs to the user
+    if (session.user.toString() !== req.user.id) {
+      return res.status(403).json({
+        message: "Unauthorized",
+      });
+    }
+
+    const updatedSession = await Session.findByIdAndUpdate(
+      req.params.id,
+      {
+        date: req.body.date,
+        location: req.body.location,
+        duration: req.body.duration,
+        notes: req.body.notes,
+      },
+      {
+        new: true,
+      }
+    );
+
+    res.json({
+      success: true,
+      session: updatedSession,
+    });
+
   } catch (error) {
     res.status(500).json({
       message: error.message,

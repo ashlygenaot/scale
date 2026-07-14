@@ -192,6 +192,13 @@ export default function Logbook() {
 
                 <td className="py-4 text-right">
                   <Link
+                    to={`/sessions/${session._id}/edit`}
+                    className="font-mono text-xs uppercase text-primary hover:underline mr-4"
+                  >
+                    Edit
+                  </Link>
+
+                  <Link
                     to={`/sessions/${session._id}`}
                     className="font-mono text-[11px] uppercase tracking-wider text-primary hover:underline mr-4"
                   >

@@ -17,6 +17,7 @@ import Session from "./pages/Session";
 import NewEntry from "./pages/NewEntry";
 import NewClimb from "./pages/NewClimb";
 import EditClimb from "./pages/EditClimb";
+import EditSession from "./pages/EditSession";
 import Projects from "./pages/Projects";
 import Analytics from "./pages/Analytics";
 
@@ -51,6 +52,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <Route path="/projects" element={<ProtectedRoute><Projects/></ProtectedRoute>} />
 
   <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>}/>
+
+  <Route
+    path="/sessions/:id/edit"
+    element={<EditSession />}
+    />
 
 </Routes>
 </AuthProvider>

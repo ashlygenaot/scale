@@ -24,6 +24,7 @@ router.delete("/climb/:id", protect, deleteClimb);
 
 // Session climbs
 router.get("/:sessionId/climbs", protect, getClimbs);
+router.get("/:id", protect, getClimbById);
 router.post("/:sessionId/climbs", protect, createClimb);
 
 

@@ -115,6 +115,14 @@ export default function SessionPage() {
                 Back to Logbook
               </Link>
 
+               <Link
+                to={`/sessions/${sessionId}/edit`}
+                className="border border-border px-4 py-2 text-sm font-mono uppercase tracking-wider hover:bg-muted transition-colors"
+              >
+                Edit Session
+              </Link>
+
+
               <Link
                 to={`/sessions/${sessionId}/new-climb`}
                 className="bg-foreground text-background px-4 py-2 text-sm font-mono uppercase tracking-wider"
@@ -200,23 +208,23 @@ export default function SessionPage() {
 
       <td className="font-mono text-xs">
        <Link
-  to={`/session/${sessionId}/climb/${c._id}/edit`}
-  className="mr-3 hover:underline"
->
-  Edit
-</Link>
+        to={`/sessions/${sessionId}/climb/${c._id}/edit`}
+        className="mr-3 hover:underline"
+      >
+        Edit
+      </Link>
 
         <button
           className="text-red-500 hover:underline"
           onClick={() => handleDelete(c._id)}
         >
           Delete
-          </button>
-        </td>
-      </tr>
-    ))
-  )}
-</tbody>
+              </button>
+            </td>
+          </tr>
+        ))
+      )}
+    </tbody>
               </table>
 
               
