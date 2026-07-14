@@ -7,6 +7,8 @@ const API = "http://localhost:3000/api";
 export default function Projects() {
   const [projects, setProjects] = useState([]);
   const [error, setError] = useState("");
+  const currentProjects = projects.filter((p) => p.status === "project" || p.isProject);
+  const completedProjects = projects.filter((p) => p.status === "send" || p.status === "flash");
 
   useEffect(() => {
     async function fetchProjects() {
@@ -56,8 +58,12 @@ export default function Projects() {
         throw new Error(data.message);
       }
 
-      setProjects((prev) =>
-        prev.filter((p) => p._id !== projectId)
+        setProjects((prev) =>
+        prev.map((p)=>
+          p._id === projectId
+            ? { ...p, status:"send", isProject: false }
+            : p
+        )
       );
     } catch (err) {
       setError(err.message);
@@ -82,14 +88,14 @@ export default function Projects() {
         throw new Error(data.message);
       }
 
-      setProjects((prev) =>
-        prev.filter((p) => p._id !== projectId)
-      );
-    } catch (err) {
-      setError(err.message);
-    }
-  }
+       setProjects((prev) =>
+      prev.filter((p) => p._id !== projectId)
+    );
 
+  } catch (err) {
+    setError(err.message);
+  }
+}
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Nav />
@@ -110,7 +116,7 @@ export default function Projects() {
         )}
 
         <div className="mt-10 border-y-2 border-foreground/80">
-          {projects.length === 0 ? (
+          {currentProjects.length === 0 ? (
             <div className="py-12 text-center text-muted-foreground">
               No projects yet.
             </div>
@@ -145,7 +151,7 @@ export default function Projects() {
               </thead>
 
               <tbody>
-                {projects.map((project) => (
+                {currentProjects.map((project) => (
                   <tr
                     key={project._id}
                     className="border-b border-border hover:bg-background/60 transition-colors"
@@ -191,6 +197,70 @@ export default function Projects() {
             </table>
           )}
         </div>
+        <section className="mt-20">
+  <div className="mb-6">
+    <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-2">
+      Completed
+    </p>
+
+    <h2 className="font-display text-5xl">
+      Finished climbs
+    </h2>
+  </div>
+
+  <div className="border-y-2 border-foreground/80">
+    {completedProjects.length === 0 ? (
+      <div className="py-12 text-center text-muted-foreground">
+        Nothing completed yet.
+      </div>
+    ) : (
+      <table className="w-full text-[13px] tabular-nums">
+        <thead>
+          <tr className="border-b border-border text-left">
+            <th className="py-3 pr-4 font-mono text-[10px] uppercase tracking-wider">
+              Project
+            </th>
+
+            <th className="py-3 pr-4 font-mono text-[10px] uppercase tracking-wider">
+              Grade
+            </th>
+
+            <th className="py-3 pr-4 font-mono text-[10px] uppercase tracking-wider">
+              Attempts
+            </th>
+
+            <th className="py-3 pr-4 font-mono text-[10px] uppercase tracking-wider">
+              Result
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {completedProjects.map((project) => (
+            <tr
+              key={project._id}
+              className="border-b border-border"
+            >
+              <td className="py-4">{project.name}</td>
+
+              <td className="py-4 font-mono">
+                {project.grade}
+              </td>
+
+              <td className="py-4 font-mono">
+                {project.tries}
+              </td>
+
+              <td className="py-4 font-mono text-primary">
+                ✓ Sent
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )}
+  </div>
+</section>
       </main>
 
       <Footer />
