@@ -46,8 +46,14 @@ export const getAnalytics = async (req, res) => {
       (c) => c.status === "project"
     );
 
+    const totalProjects = climbs.filter(
+      (c) => c.origin === "project"
+    );
+
     const completedProjects = climbs.filter(
-      (c) => c.status === "send" && c.isProject
+      (c) => 
+        (c.status === "send" || c.status === "flash") &&
+        c.origin === "project"
     );
 
     /* ------------------------
@@ -299,7 +305,6 @@ const highestGrade =
             ) / sends.length
           ).toFixed(1)
         : 0;
-
     /* ------------------------
        RESPONSE
     -------------------------*/
@@ -322,11 +327,9 @@ const highestGrade =
 
         projects: projects.length,
 
-        projectSuccess: projects.length
+        projectSuccess: totalProjects.length
           ? Math.round(
-              (completedProjects.length /
-                projects.length) *
-                100
+             (completedProjects.length / totalProjects.length) * 100
             )
           : 0,
 

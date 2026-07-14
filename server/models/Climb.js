@@ -48,6 +48,12 @@ const climbSchema = new mongoose.Schema(
       default: "attempt",
     },
 
+    origin: {
+      type: String,
+      enum: ["normal", "project"],
+      default: "normal",
+    },
+
     tries: {
       type: Number,
       default: 1,

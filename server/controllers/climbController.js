@@ -41,6 +41,7 @@ export const createClimb = async (req, res) => {
       grade,
       type,
       status,
+      origin: status === "project" ? "project" : "normal",
       tries,
       notes,
       tags,
@@ -118,6 +119,7 @@ export const getCompletedProjects = async (req, res) => {
     const projects = await Climb.find({
       user: req.user.id,
       status: { $in: ["send", "flash"] },
+      origin: "project"
     }).sort({ updatedAt: -1 });
 
     res.json({ projects });
@@ -141,6 +143,7 @@ export const updateClimb = async (req, res) => {
         type: req.body.type,
         tries: req.body.tries,
         status: req.body.status,
+        origin: req.body.origin,
         tags: req.body.tags,
       },
       {
