@@ -60,7 +60,7 @@ function toggleTheme() {
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-35 text-[13px] text-foreground/80">
+        <nav className="hidden md:flex items-center gap-30 text-[13px] text-foreground/80">
         {loggedIn ? (
   <>
     <Link to="/dashboard">Dashboard</Link>

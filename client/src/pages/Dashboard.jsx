@@ -285,7 +285,7 @@ export default function Dashboard() {
         <h2 className="font-display text-2xl mb-6">Last five climbs</h2>
       </div>
 
-      {/* BORDER WRAPPER (this is what you lost) */}
+      {/* BORDER WRAPPER */}
       <div className="border-y-2 border-foreground/80">
         <table className="w-full text-[13px] tabular-nums">
           <thead>
@@ -335,7 +335,6 @@ export default function Dashboard() {
       </div>
     </div>
 
-    {/* CONDITIONS (keep as-is if yours is working) */}
     <aside className="lg:col-span-5 lg:pl-8 lg:border-l border-border">
       <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-2">
   04 — Conditions · {locationName}

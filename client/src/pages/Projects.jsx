@@ -60,6 +60,7 @@ async function markComplete(projectId) {
       },
       body: JSON.stringify({
         status: "send",
+        origin: "project",
       }),
     });
 
