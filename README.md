@@ -2,7 +2,7 @@
 
 ## Visit The Site
 
-Check it out [here :)]()
+Check it out [here :)](https://scale-kappa.vercel.app/)
 
 <img width="1446" height="796" alt="Screenshot 2026-07-14 at 5 52 48 PM" src="https://github.com/user-attachments/assets/f547d694-94fd-4a90-bae6-a4c50cccaa35" />
 
@@ -60,7 +60,18 @@ Scale is a full-stack climbing logbook built to help climbers track sessions, pr
 - MongoDB
 - Mongoose
 - JWT Authentication
+---
 
+## Deployment
+
+Frontend:
+- Vercel
+
+Backend:
+- Render
+
+Database:
+- MongoDB Atlas
 ---
 
 ## How to Run Locally
