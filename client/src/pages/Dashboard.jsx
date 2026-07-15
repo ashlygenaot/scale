@@ -82,7 +82,7 @@ export default function Dashboard() {
         setDashboard(data);
       } 
       catch (err) {
-        console.error(err);
+        console.error("Dashboard fetch failed", err.message);
       }
     }
 
@@ -114,7 +114,7 @@ export default function Dashboard() {
         
         setLocationName(geo.city || geo.locality || "Unknown area");
       } catch (err) {
-          console.log(err);
+          console.log("Weather error:", err.message);
 
           if (err.code === 1) {
             setLocationName("Location denied");

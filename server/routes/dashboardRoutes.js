@@ -8,7 +8,6 @@ router.get(
   "/",
   protect,
   (req, res, next) => {
-    console.log("USER FROM TOKEN:", req.user);
     next();
   },
   getDashboard

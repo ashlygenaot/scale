@@ -43,8 +43,6 @@ export default function NewEntry() {
 
       const data = await res.json();
 
-      console.log("CREATE SESSION RESPONSE:", data);
-
       if (!res.ok) {
         throw new Error(data.message || "Failed to create session");
       }

@@ -16,11 +16,7 @@ export const getDashboard = async (req, res) => {
   
   try {
 
-   console.log("USER FROM TOKEN:", req.user);
-
     const userId = req.user.id;
-
-    console.log("USER ID:", userId);
 
     const sessions = await Session.find({
       user: userId,

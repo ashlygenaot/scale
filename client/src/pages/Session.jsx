@@ -8,15 +8,13 @@ const API = import.meta.env.VITE_API_URL;
 export default function SessionPage() {
   const { sessionId } = useParams();
 
-  console.log("SESSION ID:", sessionId);
-
   const [session, setSession] = useState(null);
   const [climbs, setClimbs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    document.title = "Session — Scale";
+    document.title = "Session";
 
     async function fetchSession() {
       try {
