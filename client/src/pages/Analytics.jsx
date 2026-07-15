@@ -178,7 +178,7 @@ className="border border-border p-5"
   </p>
 
   <h2 className="font-display text-3xl mt-2">
-    Grade Progression
+    Personal Best Progression
   </h2>
 
   <p className="mt-3 text-sm text-muted-foreground">

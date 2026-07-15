@@ -188,38 +188,25 @@ const sendRateHistory = Object.entries(
     /* ------------------------
        GRADE PROGRESSION
     -------------------------*/
-const gradeProgression = sends
-  .map((climb) => ({
-    date: new Date(climb.createdAt).toLocaleDateString(),
-    grade: gradeToNumber(climb.grade),
-  }))
-  .filter((c) => c.grade !== null);
+const sortedSends = sends
+  .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 
-    /* ------------------------
-       SEND RATE BY GRADE
-    -------------------------*/
+let personalBest = 0;
 
-    const sendRateByGrade = {};
+const gradeProgression = sortedSends
+  .map((climb) => {
+    const grade = gradeToNumber(climb.grade);
 
-    climbs.forEach((climb) => {
-      if (!climb.grade) return;
+    if (grade === null) return null;
 
-      if (!sendRateByGrade[climb.grade]) {
-        sendRateByGrade[climb.grade] = {
-          total: 0,
-          sends: 0,
-        };
-      }
+    personalBest = Math.max(personalBest, grade);
 
-      sendRateByGrade[climb.grade].total++;
-
-      if (
-        climb.status === "send" ||
-        climb.status === "flash"
-      ) {
-        sendRateByGrade[climb.grade].sends++;
-      }
-    });
+    return {
+      date: new Date(climb.createdAt).toLocaleDateString(),
+      grade: personalBest,
+    };
+  })
+  .filter(Boolean);
 
     /* ------------------------
        WEEKLY HEATMAP
