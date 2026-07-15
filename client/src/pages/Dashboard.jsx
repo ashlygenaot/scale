@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Nav from "@/components/ui/nav";
 import Footer from "@/components/ui/footer";
 
-const API = "http://localhost:3000/api";
+const API = import.meta.env.VITE_API_URL;
 
 
 function getCurrentWeekRange(date = new Date()) {
@@ -56,21 +56,21 @@ export default function Dashboard() {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const displayName = user?.name || user?.username || "Climber";
 
+  const [locationEnabled, setLocationEnabled] = useState(false);
+
   const maxLoad = Math.max(
   ...(dashboard?.weekLoad?.map((w) => w.hrs) || [0]),
   1
 );
 
   useEffect(() => {
-    document.title = "Dashboard — Scale";
+    document.title = "Dashboard";
   }, []);
 
   useEffect(() => {
     async function loadDashboard() {
       try {
         const token = localStorage.getItem("token");
-
-        console.log("Token being sent:", token);
 
         const res = await fetch(`${API}/dashboard`, {
           headers: {
@@ -79,7 +79,6 @@ export default function Dashboard() {
         });
 
         const data = await res.json();
-      console.log("Dashboard data:", data);
         setDashboard(data);
       } 
       catch (err) {
@@ -94,6 +93,8 @@ export default function Dashboard() {
   const weekLabel = formatWeekRange(start, end);
 
   useEffect(() => {
+    if (!locationEnabled) return;
+
     async function load() {
       try {
         const { lat, lon } = await getUserLocation();
@@ -113,13 +114,20 @@ export default function Dashboard() {
         
         setLocationName(geo.city || geo.locality || "Unknown area");
       } catch (err) {
-        console.log(err);
-        setLocationName("Location unavailable");
-      }
+          console.log(err);
+
+          if (err.code === 1) {
+            setLocationName("Location denied");
+          } else {
+            setLocationName("Location unavailable");
+          }
+
+          setWeather(null);
+        }
     }
 
     load();
-  }, []);
+  }, [locationEnabled]);
   return (
     <div className="min-h-screen">
       <Nav />
@@ -344,8 +352,17 @@ export default function Dashboard() {
 </p>
 
 <h2 className="font-display text-2xl mb-6">
-  {weather ? "Conditions update" : "Loading conditions..."}
+  {weather ? "Conditions update" : "Local climbing conditions"}
 </h2>
+
+{!locationEnabled && !weather && (
+  <button
+    onClick={() => setLocationEnabled(true)}
+    className="border border-border px-4 py-2 font-mono text-xs uppercase tracking-wider"
+  >
+    Enable Location
+  </button>
+)}
 
 {weather && (
   <dl className="space-y-3 font-mono text-[13px] border-y-2 border-foreground/80 py-5">

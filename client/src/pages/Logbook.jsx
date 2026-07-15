@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Nav from "../components/ui/nav";
 import Footer from "../components/ui/footer";
 
-const API = "http://localhost:3000/api";
+const API = import.meta.env.VITE_API_URL;
 
 export default function Logbook() {
   const [sessions, setSessions] = useState([]);
@@ -42,7 +42,11 @@ export default function Logbook() {
   }, []);
 
   async function deleteSession(sessionId) {
-  if (!window.confirm("Delete this session?")) return;
+  const confirmDelete = window.confirm(
+    "Delete this session and all climbs?"
+  );
+
+  if (!confirmDelete) return;
 
   try {
     const token = localStorage.getItem("token");
@@ -63,12 +67,12 @@ export default function Logbook() {
       throw new Error(data.message);
     }
 
-    // remove from UI
+    // remove from UI immediately
     setSessions((prev) =>
       prev.filter((s) => s._id !== sessionId)
     );
 
-  } catch (err) {
+  } catch(err) {
     setError(err.message);
   }
 }

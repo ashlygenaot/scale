@@ -91,7 +91,7 @@ export const getSession = async (req, res) => {
       success:true,
       session
     });
-    
+
   } catch (error) {
     res.status(500).json({
       message: error.message,
@@ -112,17 +112,25 @@ export const deleteSession = async (req, res) => {
       });
     }
 
+    // Make sure user owns the session
     if (session.user.toString() !== req.user.id) {
       return res.status(403).json({
         message: "Unauthorized",
       });
     }
 
+    // Delete all climbs inside this session
+    await Climb.deleteMany({
+      session: session._id,
+    });
+
+    // Delete session
     await session.deleteOne();
 
     res.json({
-      message: "Session deleted",
+      message: "Session and climbs deleted",
     });
+
   } catch (error) {
     res.status(500).json({
       message: error.message,

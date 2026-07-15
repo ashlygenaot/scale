@@ -14,7 +14,7 @@ import {
 import Nav from "../components/ui/nav";
 import Footer from "../components/ui/footer";
 
-const API = "http://localhost:3000/api";
+const API = import.meta.env.VITE_API_URL;
 
 
 export default function Analytics(){
@@ -134,6 +134,42 @@ value={`${data.stats.sendRate}%`}
 
 
 </div>
+</section>
+
+<section>
+
+<p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+ Insights
+</p>
+
+<h2 className="font-display text-3xl mt-2">
+ Performance Notes
+</h2>
+
+
+<div className="grid md:grid-cols-2 gap-4 mt-8">
+
+{data.insights.map((insight,index)=>(
+
+<div
+key={index}
+className="border border-border p-5"
+>
+
+<p className="font-mono text-[10px] uppercase text-muted-foreground">
+{insight.type}
+</p>
+
+<p className="mt-3 text-sm">
+{insight.text}
+</p>
+
+</div>
+
+))}
+
+</div>
+
 </section>
 
 <section>

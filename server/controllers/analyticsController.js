@@ -305,12 +305,66 @@ const highestGrade =
             ) / sends.length
           ).toFixed(1)
         : 0;
+
+        /* ------------------------
+   INSIGHTS
+-------------------------*/
+
+const insights = [];
+
+
+// Highest grade improvement
+if (gradeProgression.length >= 2) {
+  const firstGrade = gradeProgression[0].grade;
+  const lastGrade = gradeProgression[gradeProgression.length - 1].grade;
+
+  if (lastGrade > firstGrade) {
+    insights.push({
+      type: "progression",
+      text: `You improved from V${firstGrade} to V${lastGrade} over time.`,
+    });
+  }
+}
+
+
+// Favorite climbing style
+if (favoriteStyles.length > 0) {
+  insights.push({
+    type: "style",
+    text: `Your most logged style is ${favoriteStyles[0].name}.`,
+  });
+}
+
+
+// Best day of week
+const bestDay = Object.entries(weeklyHeatmap)
+  .sort((a,b)=>b[1]-a[1])[0];
+
+if(bestDay){
+  insights.push({
+    type:"habit",
+    text:`You climb most often on ${bestDay[0]}s.`,
+  });
+}
+
+
+// Project success
+if(projects.length > 0){
+  insights.push({
+    type:"projects",
+    text:`You complete ${Math.round(
+      (completedProjects.length/projects.length)*100
+    )}% of your projects.`,
+  });
+}
     /* ------------------------
        RESPONSE
     -------------------------*/
 
     res.json({
       success: true,
+
+      insights,
 
       stats: {
         sessions: sessions.length,
@@ -390,7 +444,7 @@ sendRateHistory,
     });
   } catch (error) {
     res.status(500).json({
-      message: error.message,
+      message: "Server error",
     });
   }
 };

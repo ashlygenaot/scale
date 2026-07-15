@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Nav from "../components/ui/nav";
 import Footer from "../components/ui/footer";
 
-const API = "http://localhost:3000/api";
+const API = import.meta.env.VITE_API_URL;
 
 export default function Projects() {
 const [projects, setProjects] = useState([]);

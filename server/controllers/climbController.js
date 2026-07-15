@@ -55,7 +55,7 @@ export const createClimb = async (req, res) => {
 
   } catch (error) {
     return res.status(500).json({
-      message: error.message,
+      message: "Server error",
     });
   }
 };
@@ -88,7 +88,7 @@ export const getClimbs = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: error.message,
+      message: "Server error",
     });
   }
 };
@@ -106,7 +106,7 @@ export const getProjects = async (req, res) => {
     res.json({ projects });
   } catch (error) {
     res.status(500).json({
-      message: error.message,
+      message: "Server error",
     });
   }
 };
@@ -125,7 +125,7 @@ export const getCompletedProjects = async (req, res) => {
     res.json({ projects });
   } catch (error) {
     res.status(500).json({
-      message: error.message,
+      message: "Server error",
     });
   }
 };
@@ -155,7 +155,7 @@ export const updateClimb = async (req, res) => {
 
   } catch (error) {
     res.status(500).json({
-      message: error.message,
+      message: "Server error",
     });
   }
 };
@@ -185,7 +185,7 @@ export const deleteClimb = async (req, res) => {
 
   } catch (error) {
     res.status(500).json({
-      message: error.message,
+      message: "Server error",
     });
   }
 };
@@ -214,7 +214,7 @@ export const getClimbById = async (req, res) => {
 
   } catch (error) {
     res.status(500).json({
-      message: error.message,
+      message: "Server error",
     });
   }
 };
