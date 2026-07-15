@@ -50,13 +50,21 @@ const getWeather = async (lat, lon) => {
 export default function Dashboard() {
   const [dashboard, setDashboard] = useState(null);
 
-  const [locationName, setLocationName] = useState("Loading...");
-  const [weather, setWeather] = useState(null);
+const [locationName, setLocationName] = useState(() => {
+  return localStorage.getItem("locationName") || "Location unavailable";
+});
+
+const [weather, setWeather] = useState(() => {
+  const saved = localStorage.getItem("weather");
+  return saved ? JSON.parse(saved) : null;
+});
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const displayName = user?.name || user?.username || "Climber";
 
-  const [locationEnabled, setLocationEnabled] = useState(false);
+const [locationEnabled, setLocationEnabled] = useState(() => {
+  return localStorage.getItem("locationEnabled") === "true";
+});
 
   const maxLoad = Math.max(
   ...(dashboard?.weekLoad?.map((w) => w.hrs) || [0]),
@@ -93,26 +101,45 @@ export default function Dashboard() {
   const weekLabel = formatWeekRange(start, end);
 
   useEffect(() => {
+  localStorage.setItem("locationEnabled", locationEnabled);
+}, [locationEnabled]);
+
+  useEffect(() => {
     if (!locationEnabled) return;
 
     async function load() {
       try {
+        const savedTime = localStorage.getItem("weatherTime");
+
+        if (savedTime && Date.now() - Number(savedTime) < 1000 * 60 * 60) {
+          // Weather is less than 1 hour old, so don't fetch it again.
+          return;
+        }
+
         const { lat, lon } = await getUserLocation();
 
         const data = await getWeather(lat, lon);
 
-        setWeather({
+        const weatherData = {
           temperature: data.current.temperature_2m,
           windspeed: data.current.wind_speed_10m,
           winddirection: data.current.wind_direction_10m,
-        });
+        };
+
+        setWeather(weatherData);
+
+        localStorage.setItem("weather", JSON.stringify(weatherData));
+        localStorage.setItem("weatherTime", Date.now());
 
         const geo = await fetch(
           `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`
         ).then((r) => r.json());
 
         
-        setLocationName(geo.city || geo.locality || "Unknown area");
+        const location = geo.city || geo.locality || "Unknown area";
+
+        setLocationName(location);
+        localStorage.setItem("locationName", location);
       } catch (err) {
           console.log("Weather error:", err.message);
 
@@ -123,6 +150,9 @@ export default function Dashboard() {
           }
 
           setWeather(null);
+          localStorage.removeItem("weather");
+          localStorage.removeItem("locationName");
+          localStorage.removeItem("weatherTime");
         }
     }
 
