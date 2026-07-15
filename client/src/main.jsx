@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { AuthProvider } from "./context/AuthContext";
-import ProtectedRoute from "./routes/Temo";
+import ProtectedRoute from "./routes/ProtectedRoute";
 import "./index.css";
 import {
   BrowserRouter,
