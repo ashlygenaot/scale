@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Logbook";
-import ProtectedRoute from "./routes/ProtectedRoute";
+import ProtectedRoute from "./routes/Temo";
 
 export default function App() {
   return (
