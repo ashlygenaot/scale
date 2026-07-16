@@ -77,7 +77,7 @@ export default function Nav() {
         >
           <span className="
             font-display 
-            text-2xl 
+            text-3xl 
             font-medium 
             tracking-tight
           ">
@@ -101,7 +101,7 @@ export default function Nav() {
           hidden 
           md:flex 
           items-center 
-          gap-8 
+          gap-6 
           text-[13px]
           text-foreground/80
         ">

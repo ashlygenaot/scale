@@ -17,8 +17,8 @@ const app = express();
 
 app.use(cors({
   origin: [
+    "https://scale-kappa.vercel.app",
     "http://localhost:5173",
-    "https://scale-kappa.vercel.app"
   ],
   credentials: true,
 }));
