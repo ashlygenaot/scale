@@ -55,7 +55,7 @@ export default function Nav() {
       if (themeMeta) {
         themeMeta.setAttribute(
           "content",
-          isDark ? "#09090b" : "#ffffff"
+          isDark ? "#150D0A" : "#F2ECE4"
         );
       }
 
