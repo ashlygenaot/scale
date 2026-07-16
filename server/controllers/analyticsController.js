@@ -42,10 +42,6 @@ export const getAnalytics = async (req, res) => {
       (c) => c.status === "send" || c.status === "flash"
     );
 
-    const projects = climbs.filter(
-      (c) => c.status === "project"
-    );
-
     const totalProjects = climbs.filter(
       (c) => c.origin === "project"
     );
@@ -60,41 +56,45 @@ export const getAnalytics = async (req, res) => {
        MONTHLY VOLUME
     -------------------------*/
 
-    const monthlyVolume = {};
-
-    climbs.forEach((climb) => {
-      const date = new Date(climb.createdAt);
-
-      const key = date.toLocaleString("default", {
-        month: "short",
-        year: "numeric",
-      });
-
-      monthlyVolume[key] =
-        (monthlyVolume[key] || 0) + 1;
-    });
-
-/* ------------------------
-   WEEKLY VOLUME
--------------------------*/
-
-const weeklyVolume = {};
+    const monthlyVolume = new Map();
 
 climbs.forEach((climb) => {
   const date = new Date(climb.createdAt);
 
-  // get Monday of that week
-  const monday = new Date(date);
-  const day = monday.getDay();
+  const key = date.toLocaleString("default", {
+    month: "short",
+    year: "numeric",
+  });
 
-  const diff = day === 0 ? -6 : 1 - day;
+  monthlyVolume.set(
+    key,
+    (monthlyVolume.get(key) || 0) + 1
+  );
+});
+
+/* ------------------------
+   WEEKLY VOLUME
+-------------------------*/
+function getWeekKey(date) {
+  const monday = new Date(date);
+
+  const diff =
+    monday.getDay() === 0
+      ? -6
+      : 1 - monday.getDay();
 
   monday.setDate(monday.getDate() + diff);
 
-  const key = monday.toLocaleDateString("en-US", {
+  return monday.toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
   });
+}
+
+const weeklyVolume = {};
+
+climbs.forEach((climb) => {
+  const key = getWeekKey(climb.createdAt);
 
   weeklyVolume[key] =
     (weeklyVolume[key] || 0) + 1;
@@ -107,20 +107,7 @@ climbs.forEach((climb) => {
 const weeklySendData = {};
 
 climbs.forEach((climb) => {
-  const date = new Date(climb.createdAt);
-
-  const monday = new Date(date);
-  const day = monday.getDay();
-
-  const diff = day === 0 ? -6 : 1 - day;
-
-  monday.setDate(monday.getDate() + diff);
-
-  const key = monday.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-  });
-
+ const key = getWeekKey(climb.createdAt);
 
   if (!weeklySendData[key]) {
     weeklySendData[key] = {
@@ -129,9 +116,7 @@ climbs.forEach((climb) => {
     };
   }
 
-
   weeklySendData[key].total++;
-
 
   if (
     climb.status === "send" ||
@@ -139,7 +124,6 @@ climbs.forEach((climb) => {
   ) {
     weeklySendData[key].sends++;
   }
-
 });
 
 
@@ -361,11 +345,11 @@ if(bestDay){
 
 
 // Project success
-if(projects.length > 0){
+if(totalProjects.length > 0){
   insights.push({
     type:"projects",
     text:`You complete ${Math.round(
-      (completedProjects.length/projects.length)*100
+      (completedProjects.length/totalProjects.length)*100
     )}% of your projects.`,
   });
 }
@@ -408,32 +392,24 @@ if(projects.length > 0){
         longestStreak,
       },
 
-      monthlyVolume: Object.entries(monthlyVolume)
-        .map(([month, count]) => ({
-          month,
-          count,
-        }))
-        .reverse(),
+      monthlyVolume: Array.from(monthlyVolume, ([month, count]) => ({
+        month,
+        count,
+      })).reverse(),
 
       favoriteStyles,
 
-      gradeDistribution: Object.entries(
-        gradeDistribution
-      ).map(([grade, count]) => ({
-        grade,
-        count,
-      })),
+      gradeDistribution: Object.entries(gradeDistribution)
+        .sort(
+          ([a], [b]) =>
+            gradeToNumber(a) - gradeToNumber(b)
+        )
+        .map(([grade, count]) => ({
+          grade,
+          count,
+        })),
 
       gradeProgression,
-
-      sendRateByGrade: Object.entries(
-        sendRateByGrade
-      ).map(([grade, values]) => ({
-        grade,
-        rate: Math.round(
-          (values.sends / values.total) * 100
-        ),
-      })),
 
       weeklyHeatmap: Object.entries(
   weeklyHeatmap
