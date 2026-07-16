@@ -116,7 +116,7 @@ export default function Login() {
           {/* BUTTON */}
           <button
             type="submit"
-            className="w-full mt-2 border-2 border-foreground text-foreground py-2 font-mono text-[11px] uppercase tracking-widest hover:bg-foreground hover:text-background transition"
+            className="w-full border border-border py-2 font-mono text-[11px] uppercase tracking-widest hover:bg-muted transition"
           >
             Log in
           </button>
