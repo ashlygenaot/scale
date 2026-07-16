@@ -25,6 +25,7 @@ const [error,setError] = useState("");
 
 
 useEffect(()=>{
+  document.title = "Analytics • Scale";
 
 async function fetchAnalytics(){
 

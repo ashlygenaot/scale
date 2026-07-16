@@ -11,7 +11,7 @@ export default function Logbook() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    document.title = "Logbook";
+    document.title = "Logbook • Scale";
 
     async function fetchSessions() {
       try {

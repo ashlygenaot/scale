@@ -10,6 +10,7 @@ const [completedProjects, setCompletedProjects] = useState([]);
 const [error, setError] = useState("");
 
   useEffect(() => {
+    document.title = "Projects • Scale";
     async function fetchProjects() {
       try {
         const token = localStorage.getItem("token");

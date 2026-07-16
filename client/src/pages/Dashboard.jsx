@@ -72,7 +72,7 @@ const [locationEnabled, setLocationEnabled] = useState(() => {
 );
 
   useEffect(() => {
-    document.title = "Dashboard";
+    document.title = "Dashboard • Scale";
   }, []);
 
   useEffect(() => {

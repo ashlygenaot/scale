@@ -14,7 +14,7 @@ export default function SessionPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    document.title = "Session";
+    document.title = "Session • Scale";
 
     async function fetchSession() {
       try {
