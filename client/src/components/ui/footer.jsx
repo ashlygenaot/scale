@@ -18,24 +18,39 @@ export default function Footer() {
         React • Express • MongoDB • Tailwind CSS
       </p>
     </div>
+      <div className="mt-6 flex flex-col items-end gap-2 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+        <a
+          href="https://github.com/ashlygenaot"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-foreground transition-colors"
+        >
+          GitHub
+        </a>
 
-    <div className="mt-6 font-mono text-[11px] uppercase tracking-widest text-muted-foreground text-right">
-      <a href="https://github.com/ashlygenaot">
-        GitHub
-      </a>
+        <a
+          href="https://www.linkedin.com/in/ashly-genao-taveras/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-foreground transition-colors"
+        >
+          LinkedIn
+        </a>
 
-      <a href="https://www.linkedin.com/in/ashly-genao-taveras/">
-        LinkedIn
-      </a>
-
-      <a href="ashlygenao94@gmail.com">
-        Contact
-      </a>
+        <a
+          href="mailto:ashlygenao94@gmail.com"
+          className="hover:text-foreground transition-colors"
+        >
+          Contact
+        </a>
 
       <p className="pt-6 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
-        Designed & developed by Ashly Genao Taveras · 2026
-      </p>
-    </div>
+
+              Designed & developed by Ashly Genao Taveras · 2026
+
+            </p>
+
+      </div>
 
   </div>
 </footer>
