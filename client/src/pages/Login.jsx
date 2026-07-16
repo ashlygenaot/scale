@@ -29,6 +29,30 @@ export default function Login() {
     }
   };
 
+  const handleDemoLogin = async () => {
+  setError("");
+
+  try {
+    const res = await loginUser({
+      email: "test@test3.com", // replace with your test account
+      password: "password123", // replace with your test password
+    });
+
+    const data = res?.data || res;
+
+    if (!data?.token) throw new Error("No token returned");
+
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+
+    window.dispatchEvent(new Event("authChanged"));
+
+    navigate("/dashboard");
+  } catch (err) {
+    setError("Unable to access demo account.");
+  }
+};
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="w-full max-w-md px-6">
@@ -107,6 +131,27 @@ export default function Login() {
               Create one
             </span>
           </p>
+
+                    <div className="flex items-center my-4">
+            <div className="flex-1 border-t border-border"></div>
+            <span className="px-3 font-mono text-[10px] uppercase text-muted-foreground">
+              Or
+            </span>
+            <div className="flex-1 border-t border-border"></div>
+          </div>
+
+            <button
+              type="button"
+              onClick={handleDemoLogin}
+              className="w-full border border-border py-2 font-mono text-[11px] uppercase tracking-widest hover:bg-muted transition"
+            >
+              Explore Demo
+            </button>
+
+            <p className="mt-4 text-center font-mono text-[10px] text-muted-foreground">
+            Recruiter? Explore Scale instantly with a preloaded demo account.
+          </p>
+
         </form>
       </div>
     </div>
