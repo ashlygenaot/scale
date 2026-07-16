@@ -375,7 +375,7 @@ if(totalProjects.length > 0){
             )
           : 0,
 
-        projects: projects.length,
+        projects: totalProjects.length,
 
         projectSuccess: totalProjects.length
           ? Math.round(
