@@ -182,7 +182,7 @@ className="border border-border p-5"
   </h2>
 
   <p className="mt-3 text-sm text-muted-foreground">
-    Track the hardest grades you've climbed over time.
+    Your highest grade ever sent, shown as it improved over time.
   </p>
 
   <div className="border border-border p-6 h-[350px] mb-16">
@@ -190,7 +190,13 @@ className="border border-border p-5"
       <LineChart data={data.gradeProgression}>
         <CartesianGrid strokeDasharray="3 3" />
 
-        <XAxis dataKey="date" />
+       <XAxis
+        dataKey="session"
+        interval={0}
+        angle={-25}
+        textAnchor="end"
+        height={80}
+      />
 
         <YAxis
           allowDecimals={false}
@@ -199,8 +205,9 @@ className="border border-border p-5"
         />
 
         <Tooltip
-          formatter={(v) => [`V${v}`, "Grade"]}
-        />
+        formatter={(value) => [`V${value}`, "Personal Best"]}
+        labelFormatter={(label) => label}
+      />
 
         <Line
           type="monotone"

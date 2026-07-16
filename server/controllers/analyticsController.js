@@ -185,28 +185,53 @@ const sendRateHistory = Object.entries(
         (gradeDistribution[climb.grade] || 0) + 1;
     });
 
-    /* ------------------------
-       GRADE PROGRESSION
-    -------------------------*/
-const sortedSends = sends
-  .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+/* ------------------------
+   GRADE PROGRESSION
+-------------------------*/
 
-let personalBest = 0;
+const sendsBySession = {};
 
-const gradeProgression = sortedSends
-  .map((climb) => {
-    const grade = gradeToNumber(climb.grade);
+for (const climb of sends) {
+  const sessionId = climb.session.toString();
 
-    if (grade === null) return null;
+  if (!sendsBySession[sessionId]) {
+    sendsBySession[sessionId] = [];
+  }
 
-    personalBest = Math.max(personalBest, grade);
+  sendsBySession[sessionId].push(climb);
+}
 
-    return {
-      date: new Date(climb.createdAt).toLocaleDateString(),
+let personalBest = -1;
+
+const gradeProgression = [];
+
+for (const session of sessions) {
+  const sessionSends =
+    sendsBySession[session._id.toString()] || [];
+
+  if (sessionSends.length === 0) continue;
+
+  const sessionBest = Math.max(
+    ...sessionSends
+      .map((c) => gradeToNumber(c.grade))
+      .filter((g) => g !== null)
+  );
+
+  // Only record NEW personal bests
+  if (sessionBest > personalBest) {
+    personalBest = sessionBest;
+
+    gradeProgression.push({
+      session: `${session.location} • ${new Date(
+        session.date
+      ).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      })}`,
       grade: personalBest,
-    };
-  })
-  .filter(Boolean);
+    });
+  }
+}
 
     /* ------------------------
        WEEKLY HEATMAP
