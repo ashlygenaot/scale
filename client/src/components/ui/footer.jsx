@@ -19,7 +19,7 @@ export default function Footer() {
       </p>
     </div>
 
-    <div className="space-y-2 text-right">
+    <div className="mt-6 font-mono text-[11px] uppercase tracking-widest text-muted-foreground text-right">
       <a href="https://github.com/ashlygenaot">
         GitHub
       </a>
