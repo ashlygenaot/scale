@@ -5,6 +5,8 @@ import Footer from "@/components/ui/footer";
 
 const API = import.meta.env.VITE_API_URL;
 
+console.log(import.meta.env.VITE_API_URL);
+
 
 function getCurrentWeekRange(date = new Date()) {
   const d = new Date(date);
