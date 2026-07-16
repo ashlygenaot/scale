@@ -1,44 +1,44 @@
 
 export default function Footer() {
   return (
-    <footer>
-      <div className="mx-auto max-w-6xl px-6 py-16 grid md:grid-cols-12 gap-8 text-sm">
-        <div className="md:col-span-5">
-          <p className="font-display text-2xl">Scale</p>
+    <footer className="border-t border-border mt-24">
+  <div className="mx-auto max-w-6xl px-6 py-12 flex flex-col md:flex-row justify-between gap-10">
 
-          <p className="mt-3 text-foreground/70 max-w-sm leading-relaxed">
-            A personal climbing logbook for tracking sessions, projects, and progress.
-            Built by a climber who wanted a better way to remember every attempt.
-          </p>
+    <div className="max-w-md">
+      <h2 className="font-display text-2xl">
+        Scale
+      </h2>
 
-          <p className="mt-6 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
-            Built between attempts
-          </p>
-        </div>
+      <p className="mt-3 text-foreground/70 leading-relaxed">
+        A personal climbing logbook I built to track sessions,
+        projects, and progress over time.
+      </p>
 
-        <FooterCol
-          title="Climb"
-          items={["Logbook", "Sessions", "Projects", "Pyramid"]}
-        />
+      <p className="mt-6 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+        React • Express • MongoDB • Tailwind CSS
+      </p>
+    </div>
 
-        <FooterCol
-          title="About"
-          items={["Story", "Updates"]}
-        />
+    <div className="space-y-2 text-right">
+      <a href="https://github.com/ashlygenaot">
+        GitHub
+      </a>
 
-        <FooterCol
-          title="Elsewhere"
-          items={["GitHub", "Contact"]}
-        />
-      </div>
+      <a href="https://www.linkedin.com/in/ashly-genao-taveras/">
+        LinkedIn
+      </a>
 
-      <div className="border-t border-border">
-        <div className="mx-auto max-w-6xl px-6 py-6 flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono uppercase tracking-widest text-muted-foreground">
-          <span>© 2026 Scale</span>
-          <span>Made for the days worth remembering</span>
-        </div>
-      </div>
-    </footer>
+      <a href="ashlygenao94@gmail.com">
+        Contact
+      </a>
+
+      <p className="pt-6 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+        Designed & developed by Ashly Genao Taveras · 2026
+      </p>
+    </div>
+
+  </div>
+</footer>
   );
 }
 
