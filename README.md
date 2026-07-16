@@ -1,3 +1,4 @@
+
 # Scale
 
 ## Visit The Site
@@ -7,17 +8,17 @@ Check it out [here :)](https://scale-kappa.vercel.app/)
 --- 
 
 - ## Dashboard
-<img width="1446" height="796" alt="Screenshot 2026-07-14 at 5 52 48 PM" src="https://github.com/user-attachments/assets/f547d694-94fd-4a90-bae6-a4c50cccaa35" />
-
+<img width="1448" height="796" alt="Screenshot 2026-07-16 at 5 45 24 PM" src="https://github.com/user-attachments/assets/fa060feb-15a1-423f-94d7-8dcc0e127559" />
 
 - ## Logbook
-<img width="1451" height="797" alt="Screenshot 2026-07-16 at 12 03 08 AM" src="https://github.com/user-attachments/assets/8cf0c1c4-9a9b-4361-8935-cfd3580ea653" />
+<img width="1447" height="794" alt="Screenshot 2026-07-16 at 5 45 58 PM" src="https://github.com/user-attachments/assets/dc41e94d-dfb3-4f78-991b-ff70c43bc2b1" />
 
 - ## Projects Page
-<img width="1447" height="738" alt="Screenshot 2026-07-16 at 12 03 56 AM" src="https://github.com/user-attachments/assets/4d9b2bac-a1a3-4fc8-90e6-3abafbc5cc13" />
+<img width="1442" height="791" alt="Screenshot 2026-07-16 at 5 46 46 PM" src="https://github.com/user-attachments/assets/2aef79e6-f344-4afc-a506-1296698febdd" />
 
 - ## Analytics (includes more than this!)
-<img width="1444" height="792" alt="Screenshot 2026-07-16 at 12 04 30 AM" src="https://github.com/user-attachments/assets/372594ea-d527-4b04-b7f3-fa74839d2b33" />
+<img width="1443" height="797" alt="Screenshot 2026-07-16 at 5 47 07 PM" src="https://github.com/user-attachments/assets/2fd71431-b282-438f-b0f5-068eef41ead5" />
+
 
 
 
