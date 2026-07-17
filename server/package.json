@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "type": "module",
   "description": "",
-  "main": "index.js",
- "scripts": {
-  "dev": "nodemon index.js",
-  "start": "node index.js"
-},
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -20,7 +21,9 @@
     "mongoose": "^9.6.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "jest": "^30.0.0",
+    "supertest": "^7.1.0",
+    "mongodb-memory-server": "^10.2.0"
   }
 }
-
