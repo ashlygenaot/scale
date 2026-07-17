@@ -22,7 +22,6 @@ jobs:
         working-directory: server
         run: npm install
 
-
       - name: Run backend tests
         working-directory: server
         run: npm test

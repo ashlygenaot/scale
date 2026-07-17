@@ -1,5 +1,6 @@
 process.env.JWT_SECRET = "testsecret";
 
+import jwt from "jsonwebtoken";
 import request from "supertest";
 import app from "../app.js";
 
@@ -18,6 +19,13 @@ afterAll(async () => {
   await closeTestDB();
 });
 
+function createTestToken(userId) {
+  return jwt.sign(
+    { id: userId },
+    process.env.JWT_SECRET,
+    { expiresIn: "7d" }
+  );
+}
 
 describe("Authentication routes", () => {
 
