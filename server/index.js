@@ -25,6 +25,10 @@ app.use(cors({
 
 app.use(express.json());
 
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
+
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/dashboard", dashboardRoutes);
@@ -34,6 +38,7 @@ app.use("/api/analytics", analyticsRoutes);
 app.get("/", (req, res) => {
   res.json({ message: "Scale API running" });
 });
+
 
 const PORT = process.env.PORT || 3000;
 

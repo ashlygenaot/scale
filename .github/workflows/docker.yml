@@ -1,4 +1,4 @@
-name: Docker Build
+name: Docker CI
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
       - main
 
 jobs:
-  docker-build:
+  docker-test:
 
     runs-on: ubuntu-latest
 
@@ -18,5 +18,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+
       - name: Build Docker images
         run: docker compose build
+
+
+      - name: Start containers
+        run: docker compose up -d
+
+
+      - name: Wait for server
+        run: sleep 10
+
+
+      - name: Test backend health
+        run: curl http://localhost:3000/health
+
+
+      - name: Stop containers
+        run: docker compose down
