@@ -38,13 +38,20 @@ export const getDashboard = async (req, res) => {
 
     const weekStart = getWeekStart(referenceDate);
 
-    const sessionsThisWeek = sessions.filter(
-      s => new Date(s.date) >= weekStart
-    );
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekEnd.getDate() + 7);
 
-    const climbsThisWeek = climbs.filter(
-      c => new Date(c.createdAt) >= weekStart
-    );
+    const sessionsThisWeek = sessions.filter((session) => {
+    const date = new Date(session.date);
+
+    return date >= weekStart && date < weekEnd;
+  });
+
+    const climbsThisWeek = climbs.filter((climb) => {
+    const date = new Date(climb.createdAt);
+
+      return date >= weekStart && date < weekEnd;
+    });
 
     const sends = climbsThisWeek.filter(
       c =>
