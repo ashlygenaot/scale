@@ -1,9 +1,17 @@
 
 # Scale
 
+---
+
+## Introduction
+
+Scale is a full-stack climbing logbook built to help climbers track sessions, projects, and long-term progress. I created it to replace scattered notes and spreadsheets with a clean, notebook-inspired interface designed specifically for climbing. The project has given me hands-on experience building a complete MERN application with authentication, data visualization, CRUD functionality, and responsive design, as well as backend architecture, testing, and deployment workflows.
+
+---
+
 ## Visit The Site
 
-Check it out [here :)](https://scale-kappa.vercel.app/)
+Check it out [here](https://scale-kappa.vercel.app/)
 
 --- 
 
@@ -19,44 +27,42 @@ Check it out [here :)](https://scale-kappa.vercel.app/)
 - ## Analytics (includes more than this!)
 <img width="1443" height="797" alt="Screenshot 2026-07-16 at 5 47 07 PM" src="https://github.com/user-attachments/assets/2fd71431-b282-438f-b0f5-068eef41ead5" />
 
-
-
-
----
-
-## Introduction
-
-Scale is a full-stack climbing logbook built to help climbers track sessions, projects, and long-term progress. I created it to replace scattered notes and spreadsheets with a clean, notebook-inspired interface designed specifically for climbing. The project has given me hands-on experience building a complete MERN application with authentication, data visualization, CRUD functionality, and responsive design.
-
 ---
 
 ## Features
 
-- **Dashboard:** Personalized dashboard displaying weekly climbing statistics, hours on the wall, active projects, recent climbs, and local weather conditions.
+**Authentication:** 
 
-- **Logbook:** Record and organize climbing sessions with details including location, duration, notes, and individual climbs.
+- User registration and login
+- JWT-based authentication
+- Protected API routes
+- Secure password hashing with bcrypt
 
-- **Session Management:** Create, edit, and delete sessions while logging each climb with its grade, type, attempts, result, and notes.
+**Climbing Logbook:** 
+- Create and manage climbing sessions
+- Record individual climbs within sessions
+- Track:
+  - Grade
+  - Attempts
+  - Status (attempt, project, send)
+  - Notes
+  - Tags
+  - Location
 
-- **Projects:** Track ongoing climbing projects separately from regular sends. Mark projects as completed, undo completed projects, and maintain a history of long-term accomplishments.
+**Progress Tracking:**
+- Dashboard with climbing statistics
+- Session history
+- Project tracking
+- Progress visualization through charts and analytics
 
-- **Analytics:** Visualize climbing progress with interactive charts showing grade progression, grade distribution, climbing volume, weekly trends, send rate, favorite climbing styles, and project success.
+**Dark Mode:** 
+- Complete light and dark mode support powered by CSS variables and Tailwind CSS, with all pages and charts adapting automatically.
 
-- **Dark Mode:** Complete light and dark mode support powered by CSS variables and Tailwind CSS, with all pages and charts adapting automatically.
+**Responsive Layout:** 
+- Designed to work across desktop, tablet, and mobile devices while maintaining a clean reading experience.
 
-- **Responsive Layout:** Designed to work across desktop, tablet, and mobile devices while maintaining a clean reading experience.
-
----
-
-## Future Features I Would Add
-
-- Outdoor crag database integration
-- Route photos and beta videos
-- Friend activity and shared sessions
-- Personal records and milestone tracking
-- Climbing goals and training plans
-- CSV export and data backup
-- Interactive climbing heatmaps
+**Demo Account:** 
+- A demo account is available for recruiters and visitors to explore the application without creating an account. 
 
 ---
 
@@ -75,9 +81,17 @@ Scale is a full-stack climbing logbook built to help climbers track sessions, pr
 - MongoDB
 - Mongoose
 - JWT Authentication
----
+- bcrypt
 
-## Deployment
+### DevOps / Testing
+- Docker
+- Docker Compose
+- GitHub Actions
+- Jest
+- Supertest
+- MongoDB Memory Server
+
+### Deployment
 
 Frontend:
 - Vercel
@@ -89,6 +103,53 @@ Database:
 - MongoDB Atlas
 ---
 
+## Architecture
+```
+Scale
+│
+├── client
+│   └── React + Vite frontend
+│
+├── server
+│   └── Express REST API
+│
+├── MongoDB
+│   └── User, Session, and Climb data
+│
+└── GitHub Actions
+    └── Automated testing and Docker builds
+```
+---
+
+## API Testing
+The backend includes automated integration tests covering:
+
+- Health checks
+- User registration
+- User login
+- Invalid authentication attempts
+- Protected route authorization
+- Complete climbing workflow:
+  - Creating a session
+  - Adding climbs
+  - Retrieving climbing data
+
+Tests are written with:
+
+- Jest
+- Supertest
+- MongoDB Memory Server
+
+Run tests locally:
+
+```
+cd server
+npm install
+npm test
+```
+
+---
+
 ## How to Run Locally
 
 ### Prerequisites
@@ -97,6 +158,7 @@ Install:
 - Node.js
 - npm
 - MongoDB
+- Docker (Optional)
 
 ### Clone the repository
 
@@ -148,6 +210,43 @@ Visit:
 ```
 http://localhost:5173
 ```
+
+## Running with Docker
+
+Build and start the application:
+
+```
+docker compose up --build
+```
+
+Docker runs:
+
+- React frontend container
+- Express backend container
+- Environment-based configuration
+
+---
+### CI/CD
+
+Every push to the main branch triggers GitHub Actions to:
+
+1. Install dependencies
+2. Run backend tests
+3. Build Docker images
+4. Start application services
+5. Verify application health
+
+---
+
+## Future Features I Would Add
+
+- Outdoor crag database integration
+- Route photos and beta videos
+- Friend activity and shared sessions
+- Personal records and milestone tracking
+- Climbing goals and training plans
+- CSV export and data backup
+- Interactive climbing heatmaps
 
 ---
 
