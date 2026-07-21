@@ -36,6 +36,18 @@ export const getDashboard = async (req, res) => {
     referenceDate = new Date(sessions[0].date);
   }
 
+    let referenceDate = new Date();
+
+    if (isDemo && process.env.DEMO_SESSION_ID) {
+      const demoSession = sessions.find(
+        session => session._id.toString() === process.env.DEMO_SESSION_ID
+      );
+
+      if (demoSession) {
+        referenceDate = new Date(demoSession.date);
+      }
+    }
+
     const weekStart = getWeekStart(referenceDate);
 
     const weekEnd = new Date(weekStart);
@@ -73,17 +85,17 @@ export const getDashboard = async (req, res) => {
     ) / 60;
 
     const weekLoad = Array.from({ length: 7 }, (_, i) => {
-  const date = new Date(referenceDate);
-  date.setDate(date.getDate() - (6 - i));
+    const date = new Date(referenceDate);
+    date.setDate(date.getDate() - (6 - i));
 
-  const daySessions = sessions.filter(
-    s => new Date(s.date).toDateString() === date.toDateString()
-  );
+    const daySessions = sessions.filter(
+      s => new Date(s.date).toDateString() === date.toDateString()
+    );
 
-  const hrs = daySessions.reduce(
-    (sum, s) => sum + (s.duration || 0),
-    0
-  ) / 60;
+    const hrs = daySessions.reduce(
+      (sum, s) => sum + (s.duration || 0),
+      0
+    ) / 60;
 
   return {
     d: date.toLocaleDateString("en-US", {
