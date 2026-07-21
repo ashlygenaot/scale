@@ -32,12 +32,6 @@ export const getDashboard = async (req, res) => {
 
     let referenceDate = new Date();
 
-    if (isDemo && sessions.length > 0) {
-    referenceDate = new Date(sessions[0].date);
-  }
-
-    let referenceDate = new Date();
-
     if (isDemo && process.env.DEMO_SESSION_ID) {
       const demoSession = sessions.find(
         session => session._id.toString() === process.env.DEMO_SESSION_ID
