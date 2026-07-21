@@ -18,6 +18,10 @@ export const getDashboard = async (req, res) => {
 
     const userId = req.user.id;
 
+    const isDemo =
+    process.env.DEMO_USER_ID &&
+    req.user.id === process.env.DEMO_USER_ID;
+
     const sessions = await Session.find({
       user: userId,
     }).sort({ date: -1 });
@@ -26,7 +30,13 @@ export const getDashboard = async (req, res) => {
       user: userId,
     }).sort({ createdAt: -1 });
 
-    const weekStart = getWeekStart();
+    let referenceDate = new Date();
+
+    if (isDemo && sessions.length > 0) {
+    referenceDate = new Date(sessions[0].date);
+  }
+
+    const weekStart = getWeekStart(referenceDate);
 
     const sessionsThisWeek = sessions.filter(
       s => new Date(s.date) >= weekStart
@@ -56,7 +66,7 @@ export const getDashboard = async (req, res) => {
     ) / 60;
 
     const weekLoad = Array.from({ length: 7 }, (_, i) => {
-  const date = new Date();
+  const date = new Date(referenceDate);
   date.setDate(date.getDate() - (6 - i));
 
   const daySessions = sessions.filter(
