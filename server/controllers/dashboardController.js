@@ -28,7 +28,9 @@ export const getDashboard = async (req, res) => {
 
     const climbs = await Climb.find({
       user: userId,
-    }).sort({ createdAt: -1 });
+    })
+    .populate("session")
+    .sort({ createdAt: -1 });
 
     let referenceDate = new Date();
     if (isDemo && process.env.DEMO_SESSION_ID) {
@@ -55,7 +57,7 @@ export const getDashboard = async (req, res) => {
   });
 
     const climbsThisWeek = climbs.filter((climb) => {
-    const date = new Date(climb.createdAt);
+    const date = new Date(climb.session.date);
 
       return date >= weekStart && date < weekEnd;
     });

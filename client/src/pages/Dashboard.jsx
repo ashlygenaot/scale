@@ -367,10 +367,11 @@ const [locationEnabled, setLocationEnabled] = useState(() => {
     className="border-b border-border hover:bg-background/60 transition-colors"
   >
     <td className="py-3 pr-4 font-mono text-muted-foreground">
-      {new Date(r.date).toLocaleDateString("en-US", {
-  month: "numeric",
-  day: "numeric",
-})}
+      {new Date(climb.session.date).toLocaleDateString("en-US", {
+      timeZone: "UTC",
+      month: "short",
+      day: "numeric",
+    })}
     </td>
 
     <td className="py-3 pr-4 font-medium">
