@@ -173,6 +173,13 @@ export const updateSession = async (req, res) => {
       }
     );
 
+    await Climb.updateMany(
+  { session: req.params.id },
+    {
+      date: sessionDate,
+    }
+  );
+
     res.json({
       success: true,
       session: updatedSession,
