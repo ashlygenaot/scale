@@ -5,6 +5,14 @@ import Footer from "../components/ui/footer";
 
 const API = import.meta.env.VITE_API_URL;
 
+function formatLocalDate(date) {
+  if (!date) return "";
+
+  const d = new Date(date);
+
+  return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
+}
+
 export default function EditClimb() {
 
   const { climbId, sessionId } = useParams();
@@ -79,7 +87,7 @@ const [session, setSession] = useState(null);
       }
 
 
-      setSession(sessionData);
+      setSession(sessionData.session);
 
 
     } catch(err){
@@ -164,7 +172,7 @@ const [session, setSession] = useState(null);
       </p>
 
       <h2 className="font-display text-2xl mt-2">
-        {new Date(session.date).toLocaleDateString()}
+        {formatLocalDate(session.date)}
       </h2>
 
       <div className="mt-3 flex flex-wrap gap-3 text-sm font-mono">
