@@ -106,17 +106,15 @@ export const getProjects = async (req, res) => {
       tries: -1,
       updatedAt: -1,
     });
+    
+ res.json({ 
+      projects,
+      debug: projects.map(p => ({
+        name: p.name,
+        tries: p.tries
+      }))
+    });
 
-    console.log(
-          projects.map((p) => ({
-            name: p.name,
-            tries: p.tries,
-          }))
-        );
-
-    res.json({ projects });
-
-    res.json({ projects });
   } catch (error) {
     res.status(500).json({
       message: "Server error",
