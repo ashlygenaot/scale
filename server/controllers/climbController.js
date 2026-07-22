@@ -101,7 +101,10 @@ export const getProjects = async (req, res) => {
       const projects = await Climb.find({
       user: req.user.id,
       status: "project",
-    }).sort({ updatedAt: -1 });
+    }).sort({
+      tries: -1,
+      updatedAt: -1,
+    });
 
     res.json({ projects });
   } catch (error) {
