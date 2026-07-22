@@ -61,12 +61,13 @@ const [weather, setWeather] = useState(() => {
   return saved ? JSON.parse(saved) : null;
 });
 
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-  const displayName = user?.name || user?.username || "Climber";
-
 const [locationEnabled, setLocationEnabled] = useState(() => {
   return localStorage.getItem("locationEnabled") === "true";
 });
+
+
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const displayName = user?.name || user?.username || "Climber";
 
   const maxLoad = Math.max(
   ...(dashboard?.weekLoad?.map((w) => w.hrs) || [0]),
@@ -98,14 +99,6 @@ const [locationEnabled, setLocationEnabled] = useState(() => {
 
     loadDashboard();
   }, []);
-
-  if (!dashboard) return null;
-
-  const { start, end } = getCurrentWeekRange(
-    dashboard.weekStart
-  );
-  
-  const weekLabel = formatWeekRange(start, end);
 
   useEffect(() => {
   localStorage.setItem("locationEnabled", locationEnabled);
@@ -165,6 +158,15 @@ const [locationEnabled, setLocationEnabled] = useState(() => {
 
     load();
   }, [locationEnabled]);
+
+  if (!dashboard) return null;
+
+  const { start, end } = getCurrentWeekRange(
+    dashboard.weekStart
+  );
+
+  const weekLabel = formatWeekRange(start, end);
+
   return (
     <div className="min-h-screen">
       <Nav />
