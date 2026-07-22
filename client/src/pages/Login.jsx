@@ -34,8 +34,8 @@ export default function Login() {
 
   try {
     const res = await loginUser({
-      email: "test@test3.com", // replace with your test account
-      password: "password123", // replace with your test password
+      email: "test@test3.com",
+      password: "password123",
     });
 
     const data = res?.data || res;

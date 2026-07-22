@@ -6,11 +6,13 @@ import Climb from "../models/Climb.js";
  */
 export const createSession = async (req, res) => {
   try {
+    const sessionDate = new Date(req.body.date);
+    sessionDate.setUTCHours(12, 0, 0, 0);
     const { date, location, duration, notes } = req.body;
 
     const session = await Session.create({
       user: req.user.id,
-      date: req.body.date,
+      date: sessionDate,
       location: req.body.location,
       duration: req.body.duration,
       notes: req.body.notes
@@ -155,10 +157,13 @@ export const updateSession = async (req, res) => {
       });
     }
 
+    const sessionDate = new Date(req.body.date);
+    sessionDate.setUTCHours(12, 0, 0, 0);
+
     const updatedSession = await Session.findByIdAndUpdate(
       req.params.id,
       {
-        date: req.body.date,
+        date: sessionDate,
         location: req.body.location,
         duration: req.body.duration,
         notes: req.body.notes,
