@@ -169,7 +169,10 @@ const [locationEnabled, setLocationEnabled] = useState(() => {
 
   if (!dashboard) return null;
     const start = new Date(dashboard.weekStart);
+    start.setMinutes(start.getMinutes() + start.getTimezoneOffset());
+
     const end = new Date(dashboard.weekEnd);
+    end.setMinutes(end.getMinutes() + end.getTimezoneOffset());
 
     const weekLabel = formatWeekRange(start, end);
 
