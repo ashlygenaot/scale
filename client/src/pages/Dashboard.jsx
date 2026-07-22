@@ -160,12 +160,10 @@ const [locationEnabled, setLocationEnabled] = useState(() => {
   }, [locationEnabled]);
 
   if (!dashboard) return null;
+    const start = new Date(dashboard.weekStart);
+    const end = new Date(dashboard.weekEnd);
 
-  const { start, end } = getCurrentWeekRange(
-    dashboard.weekStart
-  );
-
-  const weekLabel = formatWeekRange(start, end);
+    const weekLabel = formatWeekRange(start, end);
 
   return (
     <div className="min-h-screen">
