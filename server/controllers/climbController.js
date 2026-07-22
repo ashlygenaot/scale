@@ -107,6 +107,8 @@ export const getProjects = async (req, res) => {
       updatedAt: -1,
     });
 
+    res.json({ projects });
+
   } catch (error) {
     res.status(500).json({
       message: "Server error",
