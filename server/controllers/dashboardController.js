@@ -31,15 +31,16 @@ export const getDashboard = async (req, res) => {
     }).sort({ createdAt: -1 });
 
     let referenceDate = new Date();
-
     if (isDemo && process.env.DEMO_SESSION_ID) {
       const demoSession = sessions.find(
         session => session._id.toString() === process.env.DEMO_SESSION_ID
       );
 
-      if (demoSession) {
-        referenceDate = new Date(demoSession.date);
+      if (!demoSession) {
+        throw new Error("Demo session not found");
       }
+
+      referenceDate = new Date(demoSession.date);
     }
 
     const weekStart = getWeekStart(referenceDate);
@@ -107,6 +108,9 @@ export const getDashboard = async (req, res) => {
         hardestGrade:
           hardest >= 0 ? `V${hardest}` : "-"
       },
+
+        weekStart,
+        weekEnd,
 
        weekLoad,
 

@@ -7,19 +7,19 @@ const API = import.meta.env.VITE_API_URL;
 
 console.log(import.meta.env.VITE_API_URL);
 
-
 function getCurrentWeekRange(date = new Date()) {
   const d = new Date(date);
 
-  // get Monday as start of week
-  const day = d.getDay(); // 0 = Sunday
+  const day = d.getDay();
   const diffToMonday = (day === 0 ? -6 : 1) - day;
 
   const start = new Date(d);
   start.setDate(d.getDate() + diffToMonday);
+  start.setHours(0, 0, 0, 0);
 
   const end = new Date(start);
-  end.setDate(start.getDate() + 6);
+  end.setDate(start.getDate() + 7);
+  end.setHours(0, 0, 0, 0);
 
   return { start, end };
 }
@@ -50,7 +50,7 @@ const getWeather = async (lat, lon) => {
 };
 
 export default function Dashboard() {
-  const [dashboard, setDashboard] = useState(null);
+const [dashboard, setDashboard] = useState(null);
 
 const [locationName, setLocationName] = useState(() => {
   return localStorage.getItem("locationName") || "Location unavailable";
@@ -99,7 +99,12 @@ const [locationEnabled, setLocationEnabled] = useState(() => {
     loadDashboard();
   }, []);
 
-  const { start, end } = getCurrentWeekRange();
+  if (!dashboard) return null;
+
+  const { start, end } = getCurrentWeekRange(
+    dashboard.weekStart
+  );
+  
   const weekLabel = formatWeekRange(start, end);
 
   useEffect(() => {
