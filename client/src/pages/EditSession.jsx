@@ -5,6 +5,18 @@ import Footer from "../components/ui/footer";
 
 const API = import.meta.env.VITE_API_URL;
 
+function formatDateForInput(date) {
+  if (!date) return "";
+
+  const d = new Date(date);
+
+  return `${d.getFullYear()}-${String(
+    d.getMonth() + 1
+  ).padStart(2, "0")}-${String(
+    d.getDate()
+  ).padStart(2, "0")}`;
+}
+
 export default function EditSession() {
 
   const { id } = useParams();
@@ -38,10 +50,10 @@ export default function EditSession() {
       const data = await res.json();
 
       setForm({
-        date:data.session.date?.slice(0,10),
-        location:data.session.location || "",
-        duration:data.session.duration || "",
-        notes:data.session.notes || "",
+        date: formatDateForInput(data.session.date),
+        location: data.session.location || "",
+        duration: data.session.duration || "",
+        notes: data.session.notes || "",
       });
 
     }
