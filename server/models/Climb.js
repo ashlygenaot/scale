@@ -37,7 +37,7 @@ const climbSchema = new mongoose.Schema(
       trim: true,
     },
 
-    date: {
+     date: {
       type: Date,
       default: Date.now,
     },

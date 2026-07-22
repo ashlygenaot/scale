@@ -37,7 +37,6 @@ export const createClimb = async (req, res) => {
     const climb = await Climb.create({
       user: req.user.id,
       session: sessionId,
-      date: session.date,
       name,
       grade,
       type,
