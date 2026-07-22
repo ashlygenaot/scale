@@ -9,23 +9,27 @@ Scale is a full-stack climbing logbook built to help climbers track sessions, pr
 
 ---
 
-## Visit The Site
+## Demo
+
+<img src="client/public/demo.gif" width="1000">
 
 Check it out [here](https://scale-kappa.vercel.app/)
 
 --- 
 
 - ## Dashboard
-<img width="1448" height="796" alt="Screenshot 2026-07-16 at 5 45 24 PM" src="https://github.com/user-attachments/assets/fa060feb-15a1-423f-94d7-8dcc0e127559" />
+<img width="1453" height="830" alt="Screenshot 2026-07-22 at 12 33 41 AM" src="https://github.com/user-attachments/assets/2f2e3b55-c28b-4bef-8319-17ee578ee57c" />
 
 - ## Logbook
-<img width="1447" height="794" alt="Screenshot 2026-07-16 at 5 45 58 PM" src="https://github.com/user-attachments/assets/dc41e94d-dfb3-4f78-991b-ff70c43bc2b1" />
+<img width="1449" height="824" alt="Screenshot 2026-07-22 at 12 35 01 AM" src="https://github.com/user-attachments/assets/d75bb9ae-c2dd-480a-adc4-84c04008f130" />
 
 - ## Projects Page
-<img width="1442" height="791" alt="Screenshot 2026-07-16 at 5 46 46 PM" src="https://github.com/user-attachments/assets/2aef79e6-f344-4afc-a506-1296698febdd" />
+<img width="1446" height="824" alt="Screenshot 2026-07-22 at 12 36 55 AM" src="https://github.com/user-attachments/assets/27c536a6-4f4d-4d6c-b46b-f988dc0dc391" />
+
 
 - ## Analytics (includes more than this!)
-<img width="1443" height="797" alt="Screenshot 2026-07-16 at 5 47 07 PM" src="https://github.com/user-attachments/assets/2fd71431-b282-438f-b0f5-068eef41ead5" />
+<img width="1442" height="818" alt="Screenshot 2026-07-22 at 12 37 15 AM" src="https://github.com/user-attachments/assets/df32a0bd-2454-4880-8b5f-3c43b2da6081" />
+
 
 ---
 
