@@ -106,14 +106,6 @@ export const getProjects = async (req, res) => {
       tries: -1,
       updatedAt: -1,
     });
-    
- res.json({ 
-      projects,
-      debug: projects.map(p => ({
-        name: p.name,
-        tries: p.tries
-      }))
-    });
 
   } catch (error) {
     res.status(500).json({

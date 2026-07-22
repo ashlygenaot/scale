@@ -127,12 +127,15 @@ export const getDashboard = async (req, res) => {
       recent: climbs.slice(0, 5),
 
       projects: climbs
-        .filter(c => c.status === "project")
-        .slice(0, 4),
+          .filter(c => c.status === "project")
+          .sort((a, b) => {
+            return b.tries - a.tries;
+          })
+          .slice(0, 4)
     });
   } catch (err) {
     console.error("dashboard error", err);
-    
+
     res.status(500).json({
       message: err.message,
     });
