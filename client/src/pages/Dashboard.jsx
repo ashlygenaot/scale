@@ -7,23 +7,6 @@ const API = import.meta.env.VITE_API_URL;
 
 console.log(import.meta.env.VITE_API_URL);
 
-function getCurrentWeekRange(date = new Date()) {
-  const d = new Date(date);
-
-  const day = d.getDay();
-  const diffToMonday = (day === 0 ? -6 : 1) - day;
-
-  const start = new Date(d);
-  start.setDate(d.getDate() + diffToMonday);
-  start.setHours(0, 0, 0, 0);
-
-  const end = new Date(start);
-  end.setDate(start.getDate() + 7);
-  end.setHours(0, 0, 0, 0);
-
-  return { start, end };
-}
-
 function formatWeekRange(start, end) {
   const displayEnd = new Date(end);
   displayEnd.setDate(displayEnd.getDate() - 1);

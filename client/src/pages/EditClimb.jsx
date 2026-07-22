@@ -2,16 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Nav from "../components/ui/nav";
 import Footer from "../components/ui/footer";
+import { formatLocalDate } from "../utils/date";
 
 const API = import.meta.env.VITE_API_URL;
-
-function formatLocalDate(date) {
-  if (!date) return "";
-
-  const d = new Date(date);
-
-  return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
-}
 
 export default function EditClimb() {
 

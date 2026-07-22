@@ -2,20 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Nav from "../components/ui/nav";
 import Footer from "../components/ui/footer";
+import { formatLocalDate } from "../utils/date";
 
 const API = import.meta.env.VITE_API_URL;
-
-function formatDateForInput(date) {
-  if (!date) return "";
-
-  const d = new Date(date);
-
-  return `${d.getFullYear()}-${String(
-    d.getMonth() + 1
-  ).padStart(2, "0")}-${String(
-    d.getDate()
-  ).padStart(2, "0")}`;
-}
 
 export default function EditSession() {
 
@@ -50,7 +39,7 @@ export default function EditSession() {
       const data = await res.json();
 
       setForm({
-        date: formatDateForInput(data.session.date),
+        date: formatLocalDate(data.session.date),
         location: data.session.location || "",
         duration: data.session.duration || "",
         notes: data.session.notes || "",

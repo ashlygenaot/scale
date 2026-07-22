@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Nav from "../components/ui/nav";
 import Footer from "../components/ui/footer";
+import { formatLocalDate } from "../utils/date";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -75,17 +76,6 @@ export default function Logbook() {
   } catch(err) {
     setError(err.message);
   }
-}
-
-function formatSessionDate(dateString) {
-  const date = new Date(dateString);
-
-  return date.toLocaleDateString("en-US", {
-    timeZone: "UTC",
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
 }
 
   return (
@@ -180,7 +170,7 @@ function formatSessionDate(dateString) {
               >
 
                 <td className="py-4 pr-4 font-mono text-muted-foreground">
-                 {formatSessionDate(session.date)}
+                 {formatLocalDate(session.date)}
                 </td>
 
 

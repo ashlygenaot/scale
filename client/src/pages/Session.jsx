@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Nav from "../components/ui/nav";
 import Footer from "../components/ui/footer";
+import { formatLocalDate } from "../utils/date";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -97,7 +98,7 @@ export default function SessionPage() {
             </p>
             <h1 className="font-display text-4xl md:text-5xl tracking-[-0.02em]">
               {session
-                ? new Date(session.date).toLocaleDateString()
+                ? formatLocalDate(session.date)
                 : "Loading session..."}
             </h1>
 
