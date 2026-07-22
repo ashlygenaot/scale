@@ -25,8 +25,16 @@ function getCurrentWeekRange(date = new Date()) {
 }
 
 function formatWeekRange(start, end) {
-  const options = { month: "short", day: "numeric" };
-  return `${start.toLocaleDateString("en-US", options)} — ${end.toLocaleDateString("en-US", options)}`;
+  const displayEnd = new Date(end);
+  displayEnd.setDate(displayEnd.getDate() - 1);
+
+  return `${start.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  })} - ${displayEnd.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  })}`;
 }
 
 function getUserLocation() {
