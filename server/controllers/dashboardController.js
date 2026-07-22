@@ -79,18 +79,24 @@ export const getDashboard = async (req, res) => {
       0
     ) / 60;
 
-    const weekLoad = Array.from({ length: 7 }, (_, i) => {
-    const date = new Date(referenceDate);
-    date.setDate(date.getDate() - (6 - i));
+  const weekLoad = Array.from({ length: 7 }, (_, i) => {
+  const date = new Date(weekStart);
+  date.setDate(weekStart.getDate() + i);
 
-    const daySessions = sessions.filter(
-      s => new Date(s.date).toDateString() === date.toDateString()
+  const daySessions = sessions.filter((s) => {
+    const sessionDate = new Date(s.date);
+
+    return (
+      sessionDate.getFullYear() === date.getFullYear() &&
+      sessionDate.getMonth() === date.getMonth() &&
+      sessionDate.getDate() === date.getDate()
     );
+  });
 
-    const hrs = daySessions.reduce(
-      (sum, s) => sum + (s.duration || 0),
-      0
-    ) / 60;
+  const hrs = daySessions.reduce(
+    (sum, s) => sum + (s.duration || 0),
+    0
+  ) / 60;
 
   return {
     d: date.toLocaleDateString("en-US", {
