@@ -57,10 +57,12 @@ export const getDashboard = async (req, res) => {
   });
 
     const climbsThisWeek = climbs.filter((climb) => {
+    if (!climb.session) return false;
+
     const date = new Date(climb.session.date);
 
-      return date >= weekStart && date < weekEnd;
-    });
+    return date >= weekStart && date < weekEnd;
+  });
 
     const sends = climbsThisWeek.filter(
       c =>
