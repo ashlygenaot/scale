@@ -77,6 +77,17 @@ export default function Logbook() {
   }
 }
 
+function formatSessionDate(dateString) {
+  const date = new Date(dateString);
+
+  return date.toLocaleDateString("en-US", {
+    timeZone: "UTC",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Nav />
@@ -169,10 +180,7 @@ export default function Logbook() {
               >
 
                 <td className="py-4 pr-4 font-mono text-muted-foreground">
-                  {new Date(session.date).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                  })}
+                 {formatSessionDate(session.date)}
                 </td>
 
 
