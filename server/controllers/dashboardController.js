@@ -131,8 +131,10 @@ export const getDashboard = async (req, res) => {
         .slice(0, 4),
     });
   } catch (err) {
+    console.error("dashboard error", err);
+    
     res.status(500).json({
-      message: "Server error",
+      message: err.message,
     });
   }
 };
