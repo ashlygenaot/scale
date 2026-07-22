@@ -124,7 +124,12 @@ export const getDashboard = async (req, res) => {
 
        weekLoad,
 
-      recent: climbs.slice(0, 5),
+      recent: climbs
+        .filter(c => c.session)
+        .sort((a, b) => {
+          return new Date(b.session.date) - new Date(a.session.date);
+        })
+        .slice(0, 5),
 
       projects: climbs
           .filter(c => c.status === "project")
